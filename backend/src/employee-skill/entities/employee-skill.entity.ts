@@ -17,8 +17,8 @@ export class EmployeeSkill {
   name: string;
 
   //Final Agregated value of the skills based on all the metrics given after weightage
-  @Column()
-  value: number;
+  @Column({ type: 'float' })
+  value: string;
 
   @ManyToOne(() => Employee, (employee) => employee.employeeSkills)
   employee: Employee;
