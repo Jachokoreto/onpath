@@ -1,9 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreatePathwayDto } from './dto/create-pathway.dto';
 import { UpdatePathwayDto } from './dto/update-pathway.dto';
+import { Pathway } from './entities/pathway.entity';
 
 @Injectable()
 export class PathwayService {
+  constructor(
+    @InjectRepository(Pathway)
+    private pathwayRepository: Repository<Pathway>,
+  ) {}
   create(createPathwayDto: CreatePathwayDto) {
     return 'This action adds a new pathway';
   }

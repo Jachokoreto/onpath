@@ -1,9 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateMetricDto } from './dto/create-metric.dto';
 import { UpdateMetricDto } from './dto/update-metric.dto';
+import { Metric } from './entities/metric.entity';
 
 @Injectable()
 export class MetricService {
+  constructor(
+    @InjectRepository(Metric)
+    private metricRepository: Repository<Metric>,
+  ) {}
   create(createMetricDto: CreateMetricDto) {
     return 'This action adds a new metric';
   }
