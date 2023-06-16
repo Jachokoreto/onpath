@@ -1,0 +1,79 @@
+Table Employee {
+  id integer [primary key]
+  name string
+  role_id integer
+  company_id integer
+  metrics integer[]
+}
+
+Table Company {
+  id integer [primary key]
+  name string
+  department_ids integer[]
+}
+
+Table Department {
+  id integer [primary key]
+  name string
+  pathway_ids integer[]
+}
+
+Table Pathway {
+  id integer [primary key]
+  name string
+  description string
+}
+
+Table Role {
+  id integer [primary key]
+  node_id string
+  name string
+  description string
+  pathway_id integer
+  requirements integer[]
+}
+
+// Name : Years of experience
+// Weigtage: 30%
+// Value: 1-100 range
+Table Metric {
+  id integer [primary key]
+  name string
+  description string
+  weightage integer
+}
+
+Table EmployeeRole {
+  id integer [primary key]
+  employee_id integer
+  role_id integer
+}
+
+Table EmployeeMetric {
+  id integer [primary key]
+  employee_id integer
+  metric_id integer
+  value integer
+}
+
+Table RoleMetric {
+  id integer [primary key]
+  role_id integer
+  metric_id integer
+  value integer
+}
+
+Ref: EmployeeMetric.employee_id < Employee.id
+Ref: EmployeeMetric.metric_id < Metric.id
+
+Ref: EmployeeRole.employee_id < Employee.id
+Ref: EmployeeRole.role_id < Role.id
+
+Ref: RoleMetric.role_id < Role.id
+Ref: RoleMetric.metric_id < Metric.id
+
+Ref: Employee.company_id < Company.id
+
+Ref: Company.department_ids < Department.id
+Ref: Department.pathway_ids < Pathway.id
+Ref: Role.pathway_id < Pathway.id
