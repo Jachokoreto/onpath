@@ -16,12 +16,34 @@ export class EmployeeService {
     return 'This action adds a new employee';
   }
 
-  findAll() {
-    return `This action returns all employee`;
+  async findAll(): Promise<Employee[]> {
+    const data: Employee[] = await this.employeeRepository.find();
+
+    return data;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} employee`;
+  /*
+   * Consider using ILike for fuzzy searching
+   * */
+
+  async findOneByName(name: string): Promise<Employee> {
+    const data: Employee = await this.employeeRepository.findOne({
+      where: {
+        name: name,
+      },
+    });
+
+    return data;
+  }
+
+  async findOneByID(id: number): Promise<Employee> {
+    const data: Employee = await this.employeeRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    return data;
   }
 
   update(id: number, updateEmployeeDto: UpdateEmployeeDto) {
