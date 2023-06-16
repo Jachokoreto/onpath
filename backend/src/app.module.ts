@@ -7,8 +7,8 @@ import { RoleModule } from './role/role.module';
 import { EmployeeModule } from './employee/employee.module';
 import { EmployeeRoleImpressionModule } from './employee-role-impression/employee-role-impression.module';
 import { MetricModule } from './metric/metric.module';
-import { EmployeeMetricModule } from './employee-metric/employee-metric.module';
-import { RoleMetricModule } from './role-metric/role-metric.module';
+import { RoleSkillModule } from './role-skill/role-skill.module';
+import { EmployeeSkillModule } from './employee-skill/employee-skill.module';
 
 @Module({
   imports: [
@@ -17,11 +17,11 @@ import { RoleMetricModule } from './role-metric/role-metric.module';
     EmployeeModule,
     EmployeeRoleImpressionModule,
     MetricModule,
-    EmployeeMetricModule,
-    RoleMetricModule,
     DepartmentModule,
     PathwayModule,
     RoleModule,
+    RoleSkillModule,
+    EmployeeSkillModule,
   ],
 })
 export class AppModule {}

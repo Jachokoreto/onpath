@@ -1,6 +1,5 @@
-import { EmployeeMetric } from 'src/employee-metric/entities/employee-metric.entity';
-import { RoleMetric } from 'src/role-metric/entities/role-metric.entity';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { EmployeeSkill } from 'src/employee-skill/entities/employee-skill.entity';
 
 @Entity()
 export class Metric {
@@ -14,11 +13,14 @@ export class Metric {
   description: string;
 
   @Column()
+  type: string;
+
+  @Column()
+  value: number;
+
+  @Column()
   weightage: number;
 
-  @OneToMany(() => RoleMetric, (roleMetric) => roleMetric.metric)
-  roleMetrics: RoleMetric[];
-
-  @OneToMany(() => EmployeeMetric, (employeeMetric) => employeeMetric.metric)
-  employeeMetrics: EmployeeMetric[];
+  @ManyToOne(() => EmployeeSkill, (employeeSkill) => employeeSkill.metrics)
+  employeeSkill: EmployeeSkill;
 }

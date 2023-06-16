@@ -7,8 +7,8 @@ import {
 } from 'typeorm';
 import { Company } from 'src/company/entities/company.entity';
 import { EmployeeRoleImpression } from 'src/employee-role-impression/entities/employee-role-impression.entity';
-import { EmployeeMetric } from 'src/employee-metric/entities/employee-metric.entity';
 import { Role } from 'src/role/entities/role.entity';
+import { EmployeeSkill } from 'src/employee-skill/entities/employee-skill.entity';
 
 @Entity()
 export class Employee {
@@ -31,7 +31,7 @@ export class Employee {
   )
   employeeRoleImpressions: EmployeeRoleImpression[];
 
-  //For all the employees metrics
-  @OneToMany(() => EmployeeMetric, (employeeMetric) => employeeMetric.employee)
-  employeeMetrics: EmployeeMetric[];
+  // All Skills that a user has
+  @OneToMany(() => EmployeeSkill, (employeeSkill) => employeeSkill.metrics)
+  employeeSkills: EmployeeSkill[];
 }

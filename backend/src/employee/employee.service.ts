@@ -11,6 +11,7 @@ export class EmployeeService {
     @InjectRepository(Employee)
     private employeeRepository: Repository<Employee>,
   ) {}
+
   create(createEmployeeDto: CreateEmployeeDto) {
     return 'This action adds a new employee';
   }

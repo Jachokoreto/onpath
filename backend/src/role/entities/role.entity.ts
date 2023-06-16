@@ -1,7 +1,7 @@
 import { EmployeeRoleImpression } from 'src/employee-role-impression/entities/employee-role-impression.entity';
 import { Employee } from 'src/employee/entities/employee.entity';
 import { Pathway } from 'src/pathway/entities/pathway.entity';
-import { RoleMetric } from 'src/role-metric/entities/role-metric.entity';
+import { RoleSkill } from 'src/role-skill/entities/role-skill.entity';
 import {
   Column,
   Entity,
@@ -30,8 +30,8 @@ export class Role {
   @OneToMany(() => Role, (role) => role.parentRole)
   childRoles: Role[];
 
-  @OneToMany(() => RoleMetric, (roleMetric) => roleMetric.role)
-  roleMetrics: RoleMetric[];
+  @OneToMany(() => RoleSkill, (roleSkill) => roleSkill.role)
+  roleSkills: RoleSkill[];
 
   @OneToMany(() => Employee, (employee) => employee.role)
   employees: Employee[];
