@@ -16,9 +16,9 @@ export class Metric {
   @Column()
   weightage: number;
 
-  @OneToMany(() => EmployeeMetric, (employeeMetric) => employeeMetric.metric)
-  employeeMetrics: EmployeeMetric[];
-
   @OneToMany(() => RoleMetric, (roleMetric) => roleMetric.metric)
   roleMetrics: RoleMetric[];
+
+  @OneToMany(() => EmployeeMetric, (employeeMetric) => employeeMetric.metric)
+  employeeMetrics: EmployeeMetric[];
 }

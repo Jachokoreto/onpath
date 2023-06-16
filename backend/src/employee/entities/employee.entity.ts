@@ -21,7 +21,7 @@ export class Employee {
   @ManyToOne(() => Company, (company) => company.employees)
   company: Company;
 
-  @OneToMany(() => Role, (role) => role.employees)
+  @ManyToOne(() => Role, (role) => role.employees)
   role: Role;
 
   // For the opinion on one Role

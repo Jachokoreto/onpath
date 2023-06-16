@@ -10,9 +10,9 @@ export class Company {
   @Column()
   name: string;
 
+  @OneToMany(() => Department, (department) => department.company)
+  departments: Department[];
+
   @OneToMany(() => Employee, (employee) => employee.company)
   employees: Employee[];
-
-  @OneToMany(() => Department, (department) => department.id)
-  departments: Department[];
 }

@@ -24,6 +24,15 @@ export class Role {
   @ManyToOne(() => Pathway, (pathway) => pathway.roles)
   pathway: Pathway;
 
+  @ManyToOne(() => Role, (role) => role.childRoles)
+  parentRole: Role;
+
+  @OneToMany(() => Role, (role) => role.parentRole)
+  childRoles: Role[];
+
+  @OneToMany(() => RoleMetric, (roleMetric) => roleMetric.role)
+  roleMetrics: RoleMetric[];
+
   @OneToMany(() => Employee, (employee) => employee.role)
   employees: Employee[];
 
@@ -31,8 +40,5 @@ export class Role {
     () => EmployeeRoleImpression,
     (EmployeeRoleImpression) => EmployeeRoleImpression.role,
   )
-  employeeRoleImpression: EmployeeRoleImpression[];
-
-  @OneToMany(() => RoleMetric, (roleMetric) => roleMetric.role)
-  roleMetrics: RoleMetric[];
+  employeeRoleImpressions: EmployeeRoleImpression[];
 }

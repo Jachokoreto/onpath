@@ -10,9 +10,9 @@ export class EmployeeRoleImpression {
   @Column()
   impression: boolean;
 
+  @ManyToOne(() => Role, (role) => role.employeeRoleImpressions)
+  role: Role;
+
   @ManyToOne(() => Employee, (employee) => employee.employeeRoleImpressions)
   employee: Employee;
-
-  @ManyToOne(() => Role, (role) => role.employeeRoleImpression)
-  role: Role;
 }

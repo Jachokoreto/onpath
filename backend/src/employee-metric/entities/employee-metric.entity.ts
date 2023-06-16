@@ -7,12 +7,12 @@ export class EmployeeMetric {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  value: number;
+
   @ManyToOne(() => Employee, (employee) => employee.employeeMetrics)
   employee: Employee;
 
   @ManyToOne(() => Employee, (employee) => employee.employeeMetrics)
   metric: Metric;
-
-  @Column()
-  value: number;
 }
