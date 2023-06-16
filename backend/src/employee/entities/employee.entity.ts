@@ -8,6 +8,7 @@ import {
 import { Company } from 'src/company/entities/company.entity';
 import { EmployeeRoleImpression } from 'src/employee-role-impression/entities/employee-role-impression.entity';
 import { EmployeeMetric } from 'src/employee-metric/entities/employee-metric.entity';
+import { Role } from 'src/role/entities/role.entity';
 
 @Entity()
 export class Employee {
@@ -20,8 +21,8 @@ export class Employee {
   @ManyToOne(() => Company, (company) => company.employees)
   company: Company;
 
-  // @OneToMany(() => Role, (role) => role.employees)
-  // role: Role;
+  @OneToMany(() => Role, (role) => role.employees)
+  role: Role;
 
   // For the opinion on one Role
   @OneToMany(

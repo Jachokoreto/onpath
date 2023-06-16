@@ -1,5 +1,6 @@
-import { Employee } from 'src/employee/entities/employee.entity';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Employee } from 'src/employee/entities/employee.entity';
+import { Department } from 'src/department/entities/department.entity';
 
 @Entity()
 export class Company {
@@ -12,6 +13,6 @@ export class Company {
   @OneToMany(() => Employee, (employee) => employee.company)
   employees: Employee[];
 
-  // @OneToMany(() => Department, (department) => department.id)
-  // departments: Department[];
+  @OneToMany(() => Department, (department) => department.id)
+  departments: Department[];
 }

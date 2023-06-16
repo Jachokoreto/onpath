@@ -1,5 +1,6 @@
-import { Employee } from 'src/employee/entities/employee.entity';
 import { PrimaryGeneratedColumn, Column, Entity, ManyToOne } from 'typeorm';
+import { Employee } from 'src/employee/entities/employee.entity';
+import { Role } from 'src/role/entities/role.entity';
 
 @Entity()
 export class EmployeeRoleImpression {
@@ -12,6 +13,6 @@ export class EmployeeRoleImpression {
   @ManyToOne(() => Employee, (employee) => employee.employeeRoleImpressions)
   employee: Employee;
 
-  // @ManyToOne(() => Role, (role) => role.employeeImpressions)
-  // role: Role;
+  @ManyToOne(() => Role, (role) => role.employeeRoleImpression)
+  role: Role;
 }
