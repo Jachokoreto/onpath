@@ -1,5 +1,9 @@
+import JobTree from "@/components/JobTree";
+
 export default function Home() {
   return (
-    <h1>OnPath</h1>
+    <main className="w-screen h-screen flex">
+      <JobTree />
+    </main>
   )
 }
