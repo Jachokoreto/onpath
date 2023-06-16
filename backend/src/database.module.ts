@@ -9,7 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       port: 5432,
       username: 'admin',
       password: 'admin',
-      database: 'ft_transcendence',
+      database: 'onpath',
       autoLoadEntities: true,
       synchronize: true,
     }),
