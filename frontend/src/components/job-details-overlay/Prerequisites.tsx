@@ -4,6 +4,8 @@ import ProgressBar from '@/components/ProgressBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast } from 'react-hot-toast';
+import RoleSkill from '@/types/RoleSkill';
+import EmployeeSkill from '@/types/EmployeeSkill';
 
 interface PrerequisitesGroupProps {
   title: string;
@@ -43,32 +45,40 @@ export const PrerequisitesGroup = ({
   );
 };
 
-const Prerequisites = () => {
+interface PrerequisitesProps {
+  employeeSkills: EmployeeSkill[];
+  roleSkills: RoleSkill[];
+}
+
+export default function Prerequisites({
+  employeeSkills,
+  roleSkills,
+}: PrerequisitesProps) {
   return (
     <div className='flex flex-col gap-2'>
-      <PrerequisitesGroup
-        title='React'
-        level='intermediate'
-        requirement={60}
-        progress={30}
-      />
-      <hr className='h-0.5 bg-slate-200 border-0'></hr>
-      <PrerequisitesGroup
-        title='C'
-        level='advanced'
-        requirement={80}
-        progress={70}
-      />
-      <hr className='h-0.5 bg-slate-200 border-0'></hr>
-      <PrerequisitesGroup
-        title='C++'
-        level='advanced'
-        requirement={80}
-        progress={85}
-      />
-      <hr className='h-0.5 bg-slate-200 border-0'></hr>
+      {roleSkills
+        .sort((prevRoleSkill, currRoleSkill) => {
+          if (prevRoleSkill.name < currRoleSkill.name) {
+            return -1;
+          } else {
+            return 1;
+          }
+        })
+        .map((roleSkill, index) => (
+          <div key={index}>
+            <PrerequisitesGroup
+              title={roleSkill.name}
+              level='intermediate'
+              requirement={roleSkill.value}
+              progress={
+                employeeSkills.find(
+                  (employeeSkill) => employeeSkill.name === roleSkill.name,
+                )?.value ?? 0
+              }
+            />
+            <hr className='h-0.5 bg-slate-200 border-0'></hr>
+          </div>
+        ))}
     </div>
   );
-};
-
-export default Prerequisites;
+}

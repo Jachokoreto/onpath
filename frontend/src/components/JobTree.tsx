@@ -19,7 +19,10 @@ const RenderForeignObjectNode = ({
   employee,
   roles,
 }: MyCustomNode) => {
-  // const isCurrent = employee.role.id === nodeDatum?.attributes?.id;
+  const isCurrent = employee.role.id === nodeDatum?.attributes?.id;
+  const roleSkills = roles.find(
+    (r) => r.id === (nodeDatum.attributes?.id as number),
+  )?.roleSkills;
 
   return (
     <g>
@@ -29,31 +32,34 @@ const RenderForeignObjectNode = ({
         className='-translate-y-[75px] -translate-x-[150px]'
       >
         <Card
-        // className={`w-[300px] h-[150px] cursor-default ${
-        //   isCurrent && 'border-2 border-emerald-600 '
-        // }`}
+          className={`w-[300px] h-[150px] cursor-default ${
+            isCurrent && 'border-2 border-emerald-600 '
+          }`}
         >
-          {/* {isCurrent && (
+          {isCurrent && (
             <p className='text-xs absolute font-bold top-2 left-2 text-emerald-600/50'>
               Current
             </p>
-          )} */}
+          )}
           {nodeDatum ? (
             <div className='h-full flex flex-col'>
               <h5 className='text-xl font-bold tracking-tight text-gray-900 dark:text-white mb-2'>
-                {/* {nodeDatum?.attributes?.name} */}
+                {nodeDatum?.name}
               </h5>
-              {/* <Progress
+              <Progress
                 progress={relativeCareerProgression(
                   employee.employeeSkills,
-                  roles.find(
-                    (r) => r.id === (nodeDatum.attributes?.id as number),
-                  )?.roleSkills,
+                  roleSkills,
                 )}
                 size={'sm'}
                 className={isCurrent ? 'opacity-30' : ''}
-              /> */}
-              <JobDetailsModal />
+              />
+              {roleSkills && (
+                <JobDetailsModal
+                  employeeSkills={employee.employeeSkills}
+                  roleSkills={roleSkills}
+                />
+              )}
             </div>
           ) : (
             <p>Loading...</p>
@@ -75,7 +81,7 @@ export default function JobTree({ employee }: JobTreeProps) {
   const [isHydration, setIsHydration] = useState(false);
 
   const [roles, setRoles] = useState<Role[]>([]);
-  const [roleTree, setRoleTree] = useState([]);
+  const [roleTree, setRoleTree] = useState();
 
   useEffect(() => {
     setIsHydration(true);
@@ -87,32 +93,36 @@ export default function JobTree({ employee }: JobTreeProps) {
         'http://localhost:4242/api/role?search_type=PATHWAY&search_number=1',
       ).then((res) => res.text());
 
-      const parsed = await JSON.parse(data);
+      const parsed = JSON.parse(data);
 
       setRoles(parsed);
-      setRoleTree(getRoleTree(parsed));
+      const jobTree = getRoleTree(parsed);
+      setRoleTree(jobTree);
     }
     getRoles();
   }, []);
 
   if (isHydration === false) return <></>;
 
+  console.log(roleTree);
   return (
     <div
       className='w-full h-full border-2 rounded-lg border-slate-500'
       ref={containerRef}
     >
-      <Tree
-        data={roleTree}
-        translate={translate}
-        dimensions={
-          ref.current?.getBoundingClientRect() || { width: 0, height: 0 }
-        }
-        renderCustomNodeElement={(rd3tProps) =>
-          RenderForeignObjectNode({ ...rd3tProps, employee, roles })
-        }
-        nodeSize={{ x: 400, y: 300 }}
-      />
+      {roleTree && (
+        <Tree
+          data={roleTree}
+          translate={translate}
+          dimensions={
+            ref.current?.getBoundingClientRect() || { width: 0, height: 0 }
+          }
+          renderCustomNodeElement={(rd3tProps) =>
+            RenderForeignObjectNode({ ...rd3tProps, employee, roles })
+          }
+          nodeSize={{ x: 400, y: 300 }}
+        />
+      )}
     </div>
   );
 }

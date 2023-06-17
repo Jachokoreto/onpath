@@ -4,10 +4,14 @@ function recurseRole(roles: Role[], index: number): any {
   const role = roles[index];
 
   if (role.childRoles.length === 0) {
-    return role;
+    return {
+      name: role.name,
+      attributes: { id: role.id },
+    };
   } else {
     return {
-      attributes: { id: role.id, name: role.name },
+      name: role.name,
+      attributes: { id: role.id },
       children: role.childRoles.map((child) =>
         recurseRole(
           roles,
