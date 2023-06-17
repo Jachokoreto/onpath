@@ -1,1 +1,4 @@
-export class CreateEmployeeSkillDto {}
+export class CreateEmployeeSkillDto {
+  name: string;
+  employee_id: number;
+}
