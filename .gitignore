@@ -1,2 +1,5 @@
 .DS_Store
 .env
+backup_database
+backup_database2
+database

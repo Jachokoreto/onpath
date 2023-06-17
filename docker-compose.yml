@@ -29,6 +29,7 @@ services:
       - "5432:5432"
     volumes:
       - ./database:/var/lib/postgresql/data
+      - ./test.sql:/docker-entrypoint-initdb.d/init.sql
         # running this in dev might cause performance issues
   nextjs:
     container_name: frontend
