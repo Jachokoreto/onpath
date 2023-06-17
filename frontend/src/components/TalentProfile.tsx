@@ -24,7 +24,7 @@ export default function TalentProfile({
           <TalentInfo
             talent={talent}
             progress={relativeCareerProgression(
-              talent.employeeSkill,
+              talent.employeeSkills,
               roleSkills,
             )}
           ></TalentInfo>
@@ -32,7 +32,7 @@ export default function TalentProfile({
         <div className='w-[20%]'>
           <TalentSkills
             roleSkills={roleSkills}
-            talentSkills={talent.employeeSkill}
+            talentSkills={talent.employeeSkills}
           ></TalentSkills>
         </div>
       </div>

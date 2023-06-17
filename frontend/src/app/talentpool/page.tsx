@@ -1,16 +1,19 @@
 'use client';
 
 import TalentPoolList from '@/components/TalentPool';
+import TalentRoleInterest from '@/components/TalentRoleInterest';
 import TalentRoleSelection from '@/components/TalentRoleSelection';
 import { callAPIs } from '@/lib/callAPI';
 import Employee from '@/types/Employee';
 import EmployeeSkill from '@/types/EmployeeSkill';
 import { Role } from '@/types/Role';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const job: Role[] = [
   {
+    id: 1,
     name: 'Frontend Developer',
+    description: 'test',
     roleSkills: [
       {
         id: 1,
@@ -30,7 +33,9 @@ const job: Role[] = [
     ],
   },
   {
+    id: 1,
     name: 'Project Manager',
+    description: 'test',
     roleSkills: [
       {
         id: 1,
@@ -67,41 +72,68 @@ const Smartass: EmployeeSkill[] = [
   { id: 3, name: 'Management', value: 100 },
 ];
 
-const Dumb: Employee = {
-  id: 1,
-  name: 'Ding Dong',
-  company: 'Dingo Pharmacy',
-  role: 'Dingo Manager',
-  employeeSkill: Retarded,
-};
+// const Dumb: Employee = {
+//   id: 1,
+//   name: 'Ding Dong',
+//   company: 'Dingo Pharmacy',
+//   role: 'Dingo Manager',
+//   employeeSkill: Retarded,
+// };
 
-const Smart: Employee = {
-  id: 2,
-  name: 'Yunzhe',
-  company: 'Dingo Pharmacy',
-  role: 'Yunzhee',
-  employeeSkill: Smartass,
-};
+// const Smart: Employee = {
+//   id: 2,
+//   name: 'Yunzhe',
+//   company: 'Dingo Pharmacy',
+//   role: 'Yunzhee',
+//   employeeSkill: Smartass,
+// };
 
-const Employeelist: Employee[] = [Dumb, Smart];
+// const Employeelist: Employee[] = [Dumb, Smart];
 
 export default function Home() {
   const [selectedRole, setSelectedRole] = useState<Role | undefined>(undefined);
-  const rolelist = callAPIs('role');
-  console.log('rolelist =', rolelist);
+  const [interest, setInterest] = useState(false);
+  const [roles, setRoles] = useState<Role[]>([]);
+  const [employees, setEmployees] = useState<Employee[]>([]);
+
+  useEffect(() => {
+    async function getRoles() {
+      const roles = await callAPIs('role?search_type=PATHWAY&search_number=1');
+
+      if (roles) {
+        setRoles(JSON.parse(roles));
+      }
+    }
+    async function getEmployees() {
+      const employees = await callAPIs('employee?search_type=ALL');
+
+      if (employees) {
+        console.log(JSON.parse(employees));
+        setEmployees(JSON.parse(employees));
+      }
+    }
+    getRoles();
+    getEmployees();
+  }, []);
+
   return (
     <div>
       <TalentRoleSelection
         selectedRole={selectedRole}
         setSelectedRole={setSelectedRole}
-        roles={job}
+        roles={roles}
       ></TalentRoleSelection>
+      <TalentRoleInterest
+        interest={interest}
+        setInterest={setInterest}
+      ></TalentRoleInterest>
       {selectedRole && (
         <>
           <h5> {selectedRole.name}</h5>
           <TalentPoolList
             roleSkills={selectedRole.roleSkills}
-            talents={Employeelist}
+            talents={employees}
+            interest={interest}
           ></TalentPoolList>
         </>
       )}
