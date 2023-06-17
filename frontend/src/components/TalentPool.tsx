@@ -19,9 +19,13 @@ export default function TalentPoolList({
   );
 
   return (
-    <div>
+    <div className='flex flex-col gap-4 mt-4'>
       {talents.map((item, index) => (
-        <TalentProfile talent={item} roleSkills={roleSkills}></TalentProfile>
+        <TalentProfile
+          key={index}
+          talent={item}
+          roleSkills={roleSkills}
+        ></TalentProfile>
       ))}
       <li></li>
     </div>
