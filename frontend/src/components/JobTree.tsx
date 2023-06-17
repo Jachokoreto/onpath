@@ -3,6 +3,7 @@ import { useCenteredTree } from '@/hooks/useCenteredTree';
 import { Button, Card, Progress } from 'flowbite-react';
 import React, { useEffect, useRef, useState } from 'react';
 import Tree, { CustomNodeElementProps, TreeNodeDatum } from 'react-d3-tree';
+import JobDetailsModal from './job-details-overlay/JobDetailsModal';
 
 // This is a simplified example of an org chart with a depth of 2.
 // Note how deeper levels are defined recursively via the `children` property.
@@ -85,9 +86,7 @@ const RenderForeignObjectNode = ({
                 size={'sm'}
                 className={isCurrent ? 'opacity-30' : ''}
               />
-              <Button color={'gray'} size={'xs'} className='w-full mt-auto'>
-                Learn more
-              </Button>
+              <JobDetailsModal />
             </div>
           ) : (
             <p>Loading...</p>

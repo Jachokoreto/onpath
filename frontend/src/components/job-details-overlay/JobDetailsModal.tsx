@@ -11,7 +11,9 @@ export default function JobDetailsModal() {
   return (
     <>
       <Button
-        className='text-md bg-transparent text-zinc-400 border-'
+        color={'gray'}
+        size={'xs'}
+        className='w-full mt-auto'
         onClick={() => props.setOpenModal('dismissible')}
       >
         Learn more {'>'}
