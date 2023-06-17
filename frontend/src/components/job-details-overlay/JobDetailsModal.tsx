@@ -38,7 +38,7 @@ export default function JobDetailsModal() {
             </div>
             <div className='flex flex-col w-full gap-2'>
               <p className='text-lg text-zinc-400 font-medium'>Prerequisites</p>
-              <Prerequisites />
+              {props.openModal && <Prerequisites />}
             </div>
           </div>
         </div>
