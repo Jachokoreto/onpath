@@ -22,7 +22,7 @@ export default function Page({ params }: { params: { id: string } }) {
     <main className='w-screen h-screen flex flex-row'>
       {employee && <SideNavbar employee={employee} />}
       <div className='w-full h-full p-6 flex flex-col'>
-        <CareerPathway />
+        {employee && <CareerPathway employee={employee} />}
       </div>
     </main>
   );

@@ -1,7 +1,12 @@
 import React from 'react';
 import JobTree from '@/components/JobTree';
+import Employee from '@/types/Employee';
 
-export default function CareerPathway() {
+interface CareerPathwayProps {
+  employee: Employee;
+}
+
+export default function CareerPathway({ employee }: CareerPathwayProps) {
   return (
     <>
       <div className='border-b-2 border-slate-600 mb-2'>
@@ -10,7 +15,7 @@ export default function CareerPathway() {
 
       {/* <JobSeletion /> */}
 
-      <JobTree />
+      <JobTree employee={employee} />
     </>
   );
 }
