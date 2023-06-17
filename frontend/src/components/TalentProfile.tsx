@@ -4,15 +4,18 @@ import TalentInfo from './TalentInfo';
 import TalentSkills from './TalentSkills';
 import EmployeeSkill from '@/types/EmployeeSkill';
 import { relativeCareerProgression } from '@/lib/relativeCareerProgression';
+import TalentRoleInterest from './TalentRoleInterest';
 
 interface TalentProfileProps {
-  talent: Employee;
+  employee: Employee;
   roleSkills: EmployeeSkill[];
+  interest: boolean;
 }
 
 export default function TalentProfile({
-  talent,
+  employee,
   roleSkills,
+  interest,
 }: TalentProfileProps) {
   return (
     <Card>
@@ -22,9 +25,9 @@ export default function TalentProfile({
         </div>
         <div className='w-[40%]'>
           <TalentInfo
-            talent={talent}
+            employee={employee}
             progress={relativeCareerProgression(
-              talent.employeeSkills,
+              employee.employeeSkills,
               roleSkills,
             )}
           ></TalentInfo>
@@ -32,8 +35,11 @@ export default function TalentProfile({
         <div className='w-[20%]'>
           <TalentSkills
             roleSkills={roleSkills}
-            talentSkills={talent.employeeSkills}
+            talentSkills={employee.employeeSkills}
           ></TalentSkills>
+        </div>
+        <div>
+          <TalentRoleInterest interest={interest}></TalentRoleInterest>
         </div>
       </div>
     </Card>

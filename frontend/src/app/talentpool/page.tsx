@@ -1,13 +1,14 @@
 'use client';
 
 import TalentPoolList from '@/components/TalentPool';
-import TalentRoleInterest from '@/components/TalentRoleInterest';
+import TalentRoleInterest from '@/components/TalentInterestFilter';
 import TalentRoleSelection from '@/components/TalentRoleSelection';
 import { callAPIs } from '@/lib/callAPI';
 import Employee from '@/types/Employee';
 import EmployeeSkill from '@/types/EmployeeSkill';
 import { Role } from '@/types/Role';
 import { useEffect, useState } from 'react';
+import TalentInterestFilter from '@/components/TalentInterestFilter';
 
 const job: Role[] = [
   {
@@ -92,7 +93,7 @@ const Smartass: EmployeeSkill[] = [
 
 export default function Home() {
   const [selectedRole, setSelectedRole] = useState<Role | undefined>(undefined);
-  const [interest, setInterest] = useState(false);
+  const [interestFilter, setInterestFilter] = useState(false);
   const [roles, setRoles] = useState<Role[]>([]);
   const [employees, setEmployees] = useState<Employee[]>([]);
 
@@ -123,17 +124,18 @@ export default function Home() {
         setSelectedRole={setSelectedRole}
         roles={roles}
       ></TalentRoleSelection>
-      <TalentRoleInterest
-        interest={interest}
-        setInterest={setInterest}
-      ></TalentRoleInterest>
+      <TalentInterestFilter
+        InterestFilter={interestFilter}
+        setInterestFilter={setInterestFilter}
+      ></TalentInterestFilter>
       {selectedRole && (
         <>
           <h5> {selectedRole.name}</h5>
           <TalentPoolList
             roleSkills={selectedRole.roleSkills}
-            talents={employees}
-            interest={interest}
+            employees={employees}
+            interest={interestFilter}
+            role={selectedRole}
           ></TalentPoolList>
         </>
       )}
