@@ -1,5 +1,7 @@
-import { Button, Card } from 'flowbite-react';
-import React from 'react';
+'use client';
+
+import { Button, Card, Pagination } from 'flowbite-react';
+import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { tech } from '@/components/side-navbar/RadarChartData';
@@ -8,21 +10,21 @@ import {
   RadarChart,
   PolarGrid,
   PolarAngleAxis,
-  PolarRadiusAxis,
   ResponsiveContainer,
 } from 'recharts';
 
-export const SkillGraph = () => {
+interface DisplayGraphProps {
+  graphPage: number;
+}
+
+export const DisplayGraph = ({ graphPage }: DisplayGraphProps) => {
   return (
-    <div
-      data-testid='flowbite-card'
-      className='flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 flex-col w-full h-full p-4'
-    >
-      <div className='flex flex-col w-full h-full items-center justify-center gap-1'>
+    <div className='flex flex-col w-full h-full items-center justify-center gap-1'>
+      {graphPage === 1 ? (
         <ResponsiveContainer
           width='100%'
           height='100%'
-          className='text-[8px] mx-2'
+          className='text-[10px] mx-2'
         >
           <RadarChart cx='50%' cy='50%' outerRadius='80%' data={tech}>
             <PolarGrid />
@@ -36,7 +38,50 @@ export const SkillGraph = () => {
             />
           </RadarChart>
         </ResponsiveContainer>
-      </div>
+      ) : (
+        <ResponsiveContainer
+          width='100%'
+          height='100%'
+          className='text-[10px] mx-2'
+        >
+          <RadarChart cx='50%' cy='50%' outerRadius='80%' data={tech}>
+            <PolarGrid />
+            <PolarAngleAxis dataKey='subject' />
+            <Radar
+              name='user'
+              dataKey='A'
+              stroke='#0e9062'
+              fill='#0e9062'
+              fillOpacity={0.6}
+            />
+          </RadarChart>
+        </ResponsiveContainer>
+      )}
+    </div>
+  );
+};
+
+export const SkillGraph = () => {
+  const [currentPage, setCurrentPage] = useState(1);
+  const onPageChange = (page: number) => setCurrentPage(page);
+
+  return (
+    <div
+      data-testid='flowbite-card'
+      className='flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 flex-col w-full h-full p-4 items-center'
+    >
+      <DisplayGraph graphPage={currentPage} />
+      <Pagination
+        currentPage={currentPage}
+        layout='navigation'
+        nextLabel='Soft skills'
+        onPageChange={(page) => {
+          setCurrentPage(page);
+        }}
+        previousLabel='Tech skills'
+        showIcons
+        totalPages={2}
+      />
     </div>
   );
 };
