@@ -20,6 +20,7 @@ export class EmployeeService {
     const data: Employee[] = await this.employeeRepository.find({
       relations: {
         role: true,
+        employeeSkills: true,
       },
     });
 
