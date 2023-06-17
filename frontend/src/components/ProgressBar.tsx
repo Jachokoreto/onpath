@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, RefObject } from 'react';
+import React, { useEffect, useState } from 'react';
+import styles from '@/styles/ProgressBar.module.css';
 import { Progress } from 'flowbite-react';
 import { Tooltip } from 'flowbite-react';
 
@@ -8,13 +9,51 @@ interface ProgressBarProps {
   progress: number;
 }
 
-const ProgressBar = ({ progress }: ProgressBarProps) => {
+interface LoadProgressBarProps {
+  load: number;
+}
+
+const LoadProgressBar = ({ load }: LoadProgressBarProps) => {
   return (
-    <Tooltip content={Math.round(progress) + '%'}>
-      <div>
-        <Progress className='w-[200px]' progress={progress} size='sm' />
+    <Tooltip content={Math.round(load) + '%'}>
+      <div className='flex w-[200px] h-2 rounded-full items-center justify-content bg-slate-200'>
+        {/* <Progress className='w-[200px]' progress={progress} size='sm' /> */}
+        <div className={styles.progressBar} style={{ width: `${load}%` }}></div>
       </div>
     </Tooltip>
+  );
+};
+
+const ProgressBar = ({ progress }: ProgressBarProps) => {
+  const [loading, setLoading] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setLoading((prevLoading) => {
+        if (prevLoading < progress) {
+          const temp = prevLoading + 10;
+          if (temp > progress) {
+            clearInterval(interval);
+            return prevLoading;
+          } else {
+            return prevLoading + 10;
+          }
+        } else {
+          clearInterval(interval);
+          return prevLoading;
+        }
+      });
+    }, 100);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return (
+    <div>
+      <LoadProgressBar load={loading} />
+    </div>
   );
 };
 
