@@ -76,7 +76,11 @@ export class RoleService {
 
   async findByPathway(pathwayId: number): Promise<Role[]> {
     const data: Role[] = await this.roleRepository.find({
-      relations: ['parentRoles.parentRole', 'childRoles.childRole'],
+      relations: [
+        'parentRoles.parentRole',
+        'childRoles.childRole',
+        'roleSkills',
+      ],
       where: {
         pathway: {
           id: pathwayId,
