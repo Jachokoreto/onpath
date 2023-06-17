@@ -8,5 +8,6 @@ import { Pathway } from './entities/pathway.entity';
   imports: [TypeOrmModule.forFeature([Pathway])],
   controllers: [PathwayController],
   providers: [PathwayService],
+  exports: [PathwayService],
 })
 export class PathwayModule {}
