@@ -1,6 +1,6 @@
 'use client';
 import CareerPathway from '@/components/CareerPathway';
-import SideNavbar from '@/components/SideNavbar';
+import SideNavbar from '@/components/side-navbar/SideNavbar';
 
 export default function Home() {
   return (

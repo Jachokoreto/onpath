@@ -1,8 +1,8 @@
 'use client';
 
 import ProgressBar from '@/components/ProgressBar';
-import { faBook, faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBook, faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 import { toast, Toaster } from 'react-hot-toast';
 
 interface PrerequisitesGroupProps {
