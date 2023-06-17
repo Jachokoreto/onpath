@@ -1,7 +1,43 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  ValidationPipe,
+  Query,
+} from '@nestjs/common';
 import { RoleService } from './role.service';
 import { CreateRoleDto } from './dto/create-role.dto';
 import { UpdateRoleDto } from './dto/update-role.dto';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsNumberString,
+  ValidateIf,
+} from 'class-validator';
+import { Transform } from 'class-transformer';
+
+enum RoleSearchType {
+  PATHWAY = 'PATHWAY',
+}
+
+class RoleGetQueryParameters {
+  @IsNotEmpty()
+  @IsEnum(RoleSearchType)
+  search_type: RoleSearchType;
+
+  @ValidateIf((searchType) => searchType.search_type === RoleSearchType.PATHWAY)
+  @Transform((params) =>
+    params.obj.search_type === RoleSearchType.PATHWAY
+      ? params.value
+      : undefined,
+  )
+  @IsNumberString()
+  search_number: number;
+}
 
 @Controller('role')
 export class RoleController {
@@ -13,13 +49,18 @@ export class RoleController {
   }
 
   @Get()
-  findAll() {
-    return this.roleService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.roleService.findOne(+id);
+  async find(
+    @Query(
+      new ValidationPipe({
+        forbidNonWhitelisted: true,
+      }),
+    )
+    queryOptions: RoleGetQueryParameters,
+  ) {
+    switch (queryOptions.search_type) {
+      case RoleSearchType.PATHWAY:
+        return await this.roleService.findByPathway(queryOptions.search_number);
+    }
   }
 
   @Patch(':id')
