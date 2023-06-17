@@ -17,6 +17,7 @@ import {
   IsEnum,
   ValidateIf,
   IsNumberString,
+  IsNumber,
 } from 'class-validator';
 import { Transform } from 'class-transformer';
 
@@ -45,11 +46,15 @@ class ImpressionGetQueryParameters {
   search_number: number;
 }
 
-// class ImpressionPostBodyParameters {
-// 	@IsNotEmpty()
-// 	@IsNumberString()
-// 
-// }
+class ImpressionPostBodyParameters {
+  @IsNotEmpty()
+  @IsNumber()
+  employeeID: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  skillID: number;
+}
 
 @Controller('employee-skill-impression')
 export class EmployeeSkillImpressionController {
@@ -58,11 +63,17 @@ export class EmployeeSkillImpressionController {
   ) {}
 
   @Post()
-  create(
-    @Body() createEmployeeSkillImpressionDto: CreateEmployeeSkillImpressionDto,
+  async create(
+    @Body(
+      new ValidationPipe({
+        forbidNonWhitelisted: true,
+      }),
+    )
+    bodyParameters: ImpressionPostBodyParameters,
   ) {
-    return this.employeeSkillImpressionService.create(
-      createEmployeeSkillImpressionDto,
+    return await this.employeeSkillImpressionService.create(
+      bodyParameters.employeeID,
+      bodyParameters.skillID,
     );
   }
 

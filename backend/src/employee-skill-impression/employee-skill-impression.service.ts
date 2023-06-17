@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreateEmployeeSkillImpressionDto } from './dto/create-employee-skill-impression.dto';
 import { UpdateEmployeeSkillImpressionDto } from './dto/update-employee-skill-impression.dto';
 import { EmployeeSkillImpression } from './entities/employee-skill-impression.entity';
 
@@ -12,8 +11,18 @@ export class EmployeeSkillImpressionService {
     private employeeSkillImpressionRepository: Repository<EmployeeSkillImpression>,
   ) {}
 
-  create(createEmployeeSkillImpressionDto: CreateEmployeeSkillImpressionDto) {
-    return 'This action adds a new employeeSkillImpression';
+  async create(
+    employeeId: number,
+    skillId: number,
+  ): Promise<EmployeeSkillImpression> {
+    const data: EmployeeSkillImpression =
+      this.employeeSkillImpressionRepository.create({
+        employee: { id: employeeId },
+        skill: { id: skillId },
+        impression: true,
+      });
+
+    return await this.employeeSkillImpressionRepository.save(data);
   }
 
   async findByEmployee(employeeID: number): Promise<EmployeeSkillImpression[]> {
