@@ -23,6 +23,7 @@ import { Transform } from 'class-transformer';
 import { EmployeeService } from 'src/employee/employee.service';
 
 enum RoleSearchType {
+  ONE = 'ONE',
   PATHWAY = 'PATHWAY',
   EMPLOYEE = 'EMPLOYEE',
 }
@@ -34,10 +35,12 @@ class RoleGetQueryParameters {
 
   @ValidateIf(
     (searchType) =>
+      searchType.search_type === RoleSearchType.ONE ||
       searchType.search_type === RoleSearchType.PATHWAY ||
       searchType.search_type === RoleSearchType.EMPLOYEE,
   )
   @Transform((params) =>
+    params.obj.search_type === RoleSearchType.ONE ||
     params.obj.search_type === RoleSearchType.PATHWAY ||
     params.obj.search_type === RoleSearchType.EMPLOYEE
       ? params.value
@@ -59,9 +62,11 @@ export class RolePostBodyParameters {
   @IsNumber()
   pathwayID: number;
 
-  @IsNotEmpty()
-  @IsNumber()
-  parentID: number;
+  @IsNumber({}, { each: true })
+  parentRoles?: number[];
+
+  @IsNumber({}, { each: true })
+  childRoles?: number[];
 }
 
 @Controller('role')
@@ -80,7 +85,7 @@ export class RoleController {
     )
     queryOptions: RolePostBodyParameters,
   ) {
-    return await this.roleService.create(queryOptions);
+    return await this.roleService.createOne(queryOptions);
   }
 
   @Get()
@@ -93,6 +98,8 @@ export class RoleController {
     queryOptions: RoleGetQueryParameters,
   ) {
     switch (queryOptions.search_type) {
+      case RoleSearchType.ONE:
+        return await this.roleService.findOneByID(queryOptions.search_number);
       case RoleSearchType.PATHWAY:
         return await this.roleService.findByPathway(queryOptions.search_number);
       case RoleSearchType.EMPLOYEE:
