@@ -19,8 +19,14 @@ export class PathwayService {
     return `This action returns all pathway`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pathway`;
+  async findOneByID(id: number): Promise<Pathway> {
+    const data: Pathway = await this.pathwayRepository.findOne({
+      where: {
+        id: id,
+      },
+    });
+
+    return data;
   }
 
   update(id: number, updatePathwayDto: UpdatePathwayDto) {

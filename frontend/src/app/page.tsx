@@ -1,5 +1,14 @@
+'use client';
+import JobTree from '@/components/JobTree';
+import Sidebar from '@/components/Sidebar';
+
 export default function Home() {
   return (
-    <h1>OnPath</h1>
-  )
+    <main className='w-screen h-screen flex flex-row test'>
+      <Sidebar />
+      <div className='w-full h-full border border-gray-700'>
+        <JobTree />
+      </div>
+    </main>
+  );
 }

@@ -11,8 +11,41 @@ export class EmployeeRoleImpressionService {
     @InjectRepository(EmployeeRoleImpression)
     private EmployeeRoleImpressionRepository: Repository<EmployeeRoleImpression>,
   ) {}
+
   create(createEmployeeRoleImpressionDto: CreateEmployeeRoleImpressionDto) {
     return 'This action adds a new employeeRoleImpression';
+  }
+
+  async findByEmployee(employeeID: number): Promise<EmployeeRoleImpression[]> {
+    const data: EmployeeRoleImpression[] =
+      await this.EmployeeRoleImpressionRepository.find({
+        relations: {
+          employee: true,
+        },
+        where: {
+          employee: {
+            id: employeeID,
+          },
+        },
+      });
+
+    return data;
+  }
+
+  async findByRole(roleID: number): Promise<EmployeeRoleImpression[]> {
+    const data: EmployeeRoleImpression[] =
+      await this.EmployeeRoleImpressionRepository.find({
+        relations: {
+          employee: true,
+        },
+        where: {
+          role: {
+            id: roleID,
+          },
+        },
+      });
+
+    return data;
   }
 
   findAll() {
