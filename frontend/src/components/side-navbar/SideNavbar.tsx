@@ -11,13 +11,27 @@ import {
   PolarGrid,
   PolarAngleAxis,
   ResponsiveContainer,
+  PolarRadiusAxis,
 } from 'recharts';
+import Employee from '@/types/Employee';
 
 interface DisplayGraphProps {
   graphPage: number;
+  employee: Employee;
 }
 
-export const DisplayGraph = ({ graphPage }: DisplayGraphProps) => {
+interface sideNavbarProps {
+  employee: Employee;
+}
+
+export const DisplayGraph = ({ graphPage, employee }: DisplayGraphProps) => {
+  const jstTheSkills = employee.employeeSkills.map((skill) => ({
+    ...skill,
+    fullMark: 10,
+  }));
+  console.log(employee.employeeSkills);
+  console.log(jstTheSkills);
+
   return (
     <div className='flex flex-col w-full h-full items-center justify-center gap-1'>
       {graphPage === 1 ? (
@@ -26,12 +40,13 @@ export const DisplayGraph = ({ graphPage }: DisplayGraphProps) => {
           height='100%'
           className='text-[10px] mx-2'
         >
-          <RadarChart cx='50%' cy='50%' outerRadius='80%' data={tech}>
+          <RadarChart cx='50%' cy='50%' outerRadius='80%' data={jstTheSkills}>
             <PolarGrid />
-            <PolarAngleAxis dataKey='subject' />
+            <PolarAngleAxis dataKey='name' />
+            <PolarRadiusAxis angle={90} domain={[0, 10]} />
             <Radar
               name='user'
-              dataKey='A'
+              dataKey='value'
               stroke='#0e7490'
               fill='#0e7490'
               fillOpacity={0.6}
@@ -44,12 +59,13 @@ export const DisplayGraph = ({ graphPage }: DisplayGraphProps) => {
           height='100%'
           className='text-[10px] mx-2'
         >
-          <RadarChart cx='50%' cy='50%' outerRadius='80%' data={tech}>
+          <RadarChart cx='50%' cy='50%' outerRadius='80%' data={jstTheSkills}>
             <PolarGrid />
-            <PolarAngleAxis dataKey='subject' />
+            <PolarAngleAxis dataKey='name' />
+            <PolarRadiusAxis angle={90} domain={[0, 10]} />
             <Radar
               name='user'
-              dataKey='A'
+              dataKey='value'
               stroke='#0e9062'
               fill='#0e9062'
               fillOpacity={0.6}
@@ -61,7 +77,7 @@ export const DisplayGraph = ({ graphPage }: DisplayGraphProps) => {
   );
 };
 
-export const SkillGraph = () => {
+export const SkillGraph = ({ employee }: sideNavbarProps) => {
   const [currentPage, setCurrentPage] = useState(1);
   const onPageChange = (page: number) => setCurrentPage(page);
 
@@ -70,7 +86,7 @@ export const SkillGraph = () => {
       data-testid='flowbite-card'
       className='flex rounded-lg border border-gray-200 bg-white shadow-md dark:border-gray-700 dark:bg-gray-800 flex-col w-full h-full p-4 items-center'
     >
-      <DisplayGraph graphPage={currentPage} />
+      <DisplayGraph graphPage={currentPage} employee={employee} />
       <Pagination
         currentPage={currentPage}
         layout='navigation'
@@ -86,15 +102,17 @@ export const SkillGraph = () => {
   );
 };
 
-export const ProfileCard = () => {
+export const ProfileCard = ({ employee }: sideNavbarProps) => {
   return (
     <Card className='w-full'>
       <div className='flex flex-col w-full h-full items-center justify-center gap-1'>
         <div className='flex w-28 h-28 rounded-full bg-slate-200 items-center justify-center'>
           <FontAwesomeIcon icon={faUser} size='2xl' />
         </div>
-        <p className='text-slate-400 text-sm text-center'>Current role</p>
-        <p className='text-md mx-4 break-words text-center'>Junior Developer</p>
+        <p className='text-slate-400 text-sm text-center'>
+          {employee.role.name}
+        </p>
+        <p className='text-md mx-4 break-words text-center'>{employee.name}</p>
       </div>
     </Card>
   );
@@ -116,13 +134,13 @@ export const Navigation = () => {
   );
 };
 
-export default function SideNavbar() {
+export default function SideNavbar({ employee }: sideNavbarProps) {
   return (
     <div className='w-[30vw] h-full border-r border-gray-300 py-5 px-6 flex flex-col gap-4'>
       <h2 className='text-2xl font-bold'>OnPath</h2>
       <Navigation />
-      <ProfileCard />
-      <SkillGraph />
+      <ProfileCard employee={employee} />
+      <SkillGraph employee={employee} />
     </div>
   );
 }
