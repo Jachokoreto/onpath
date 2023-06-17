@@ -45,6 +45,12 @@ export class EmployeeService {
       where: {
         id: id,
       },
+      relations: {
+        role: true,
+        employeeSkills: true,
+        employeeSkillImpressions: true,
+        employeeRoleImpressions: true,
+      },
     });
 
     return data;

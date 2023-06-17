@@ -39,6 +39,6 @@ export class Employee {
   employeeSkillImpressions: EmployeeSkillImpression[];
 
   // All Skills that a user has
-  @OneToMany(() => EmployeeSkill, (employeeSkill) => employeeSkill.metrics)
+  @OneToMany(() => EmployeeSkill, (employeeSkill) => employeeSkill.employee)
   employeeSkills: EmployeeSkill[];
 }
