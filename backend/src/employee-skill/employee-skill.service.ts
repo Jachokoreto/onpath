@@ -1,12 +1,9 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateEmployeeSkillDto } from './dto/create-employee-skill.dto';
-import { UpdateEmployeeSkillDto } from './dto/update-employee-skill.dto';
 import { EmployeeSkill } from './entities/employee-skill.entity';
-import { CalculationService } from 'src/calculation/calculation.service';
-import { Metric } from 'src/metric/entities/metric.entity';
-import { Employee } from 'src/employee/entities/employee.entity';
+import { EmployeeService } from 'src/employee/employee.service';
 
 @Injectable()
 export class EmployeeSkillService {
@@ -14,51 +11,18 @@ export class EmployeeSkillService {
     @InjectRepository(EmployeeSkill)
     private employeeSkillRepository: Repository<EmployeeSkill>,
 
-    @InjectRepository(Employee)
-    private employeeRepository: Repository<Employee>,
-
-    @InjectRepository(Metric)
-    private metricRepository: Repository<Metric>,
-
-    @Inject(CalculationService)
-    private calculationService: CalculationService,
+    @Inject(EmployeeService)
+    private readonly employeeService: EmployeeService,
   ) {}
 
   async create(createEmployeeSkillDto: CreateEmployeeSkillDto) {
-    // Fill in test data
-    // this.employeeRepository.save({
-    //   name: 'Test Employee',
-    // });
-    // this.metricRepository.save([
-    //   {
-    //     name: 'React Cert',
-    //     description: 'Extensive React Cert',
-    //     type: 'Certification',
-    //     value: 7,
-    //     weightage: 20,
-    //   },
-    //   {
-    //     name: 'React Cert 2',
-    //     description: 'Extensive React Cert 2',
-    //     type: 'Certification',
-    //     value: 6,
-    //     weightage: 20,
-    //   },
-    // ]);
-
-    const employee = await this.employeeRepository.findOneBy({
-      id: createEmployeeSkillDto.employee_id,
-    });
-    const metrics = await this.metricRepository.findBy({
-      id: In(createEmployeeSkillDto.metric_ids),
-    });
-    const aggregatedValue = this.calculationService.aggregateMetrics(metrics);
-
+    const employee = await this.employeeService.findOneByID(
+      createEmployeeSkillDto.employee_id,
+    );
     const newEmployeeSkill = this.employeeSkillRepository.create({
       name: createEmployeeSkillDto.name,
-      value: String(aggregatedValue),
+      value: '0',
       employee: employee,
-      metrics: metrics,
     });
 
     this.employeeSkillRepository.save(newEmployeeSkill);
@@ -73,12 +37,15 @@ export class EmployeeSkillService {
     });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} employeeSkill`;
+  async findOne(id: number): Promise<EmployeeSkill | null> {
+    return await this.employeeSkillRepository.findOne({
+      relations: { employee: true, metrics: true },
+      where: { id: id },
+    });
   }
 
-  update(id: number, updateEmployeeSkillDto: UpdateEmployeeSkillDto) {
-    return `This action updates a #${id} employeeSkill`;
+  async update(id: number, value: string) {
+    this.employeeSkillRepository.update(id, { value: value });
   }
 
   remove(id: number) {
