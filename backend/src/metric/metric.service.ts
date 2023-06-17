@@ -41,6 +41,16 @@ export class MetricService {
     return await this.metricRepository.find();
   }
 
+  async findBySkillID(skillId: number): Promise<Metric[]> {
+    return await this.metricRepository.find({
+      where: {
+        employeeSkill: {
+          id: skillId,
+        },
+      },
+    });
+  }
+
   async findByIDs(ids: number[]): Promise<Metric[]> {
     return await this.metricRepository.find({ where: { id: In(ids) } });
   }
