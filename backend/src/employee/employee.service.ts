@@ -17,7 +17,11 @@ export class EmployeeService {
   }
 
   async findAll(): Promise<Employee[]> {
-    const data: Employee[] = await this.employeeRepository.find();
+    const data: Employee[] = await this.employeeRepository.find({
+      relations: {
+        role: true,
+      },
+    });
 
     return data;
   }
@@ -40,6 +44,21 @@ export class EmployeeService {
     const data: Employee = await this.employeeRepository.findOne({
       where: {
         id: id,
+      },
+    });
+
+    return data;
+  }
+
+  async findAllWithRole(roleId: number): Promise<Employee[]> {
+    const data: Employee[] = await this.employeeRepository.find({
+      relations: {
+        role: true,
+      },
+      where: {
+        role: {
+          id: roleId,
+        },
       },
     });
 

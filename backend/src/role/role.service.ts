@@ -23,6 +23,21 @@ export class RoleService {
     return `This action returns a #${id} role`;
   }
 
+  async findByPathway(pathwayId: number): Promise<Role[]> {
+    const data: Role[] = await this.roleRepository.find({
+      relations: {
+        pathway: true,
+      },
+      where: {
+        pathway: {
+          id: pathwayId,
+        },
+      },
+    });
+
+    return data;
+  }
+
   update(id: number, updateRoleDto: UpdateRoleDto) {
     return `This action updates a #${id} role`;
   }
