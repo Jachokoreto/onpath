@@ -8,6 +8,7 @@ import Tree, { CustomNodeElementProps, TreeNodeDatum } from 'react-d3-tree';
 // Note how deeper levels are defined recursively via the `children` property.
 const orgChart = {
   name: 'Entry Developer',
+  attributes: {},
   children: [
     {
       name: 'Junior Frontend Developer',
@@ -24,6 +25,7 @@ const orgChart = {
           children: [
             {
               name: 'CTO',
+              attributes: {},
             },
           ],
         },
@@ -33,6 +35,7 @@ const orgChart = {
           children: [
             {
               name: 'Tech Team Lead',
+              attributes: {},
             },
           ],
         },
@@ -41,35 +44,34 @@ const orgChart = {
   ],
 };
 
-// interface CustomTreeNodeDatum extends TreeNodeDatum {
-//   attributes?: {
-//     roleTitle: string;
-//     roleId: number;
-//   };
-// }
+interface MyCustomNodeElementProps extends CustomNodeElementProps {
+  // handleCenterCurrent: any;
+}
 
 const RenderForeignObjectNode = ({
   nodeDatum,
   toggleNode,
-}: CustomNodeElementProps) => {
-  // const [isCurrent, setIsCurrent] = useState(false);
+  hierarchyPointNode,
+}: MyCustomNodeElementProps) => {
+  // check if node is current role through nodeDatum attribute
+  // (current is customized attribute, attribute has no types)
   const isCurrent =
     nodeDatum && nodeDatum.attributes && nodeDatum.attributes.current;
 
   return (
     <g>
-      {/* <circle r={15}></circle> */}
       {/* `foreignObject` requires width & height to be explicitly set. */}
       <foreignObject
-        width={300}
-        height={150}
+        width={320}
+        height={170}
         className='-translate-y-[75px] -translate-x-[150px]'
       >
         <Card
-          className={`w-[300px] h-[150px] cursor-default ${
-            isCurrent && 'border-2 border-emerald-600 '
+          className={`relative top-[10px] left-[10px] w-[300px] h-[150px] cursor-default ${
+            isCurrent ? '!border-2 !border-emerald-400' : ''
           }`}
         >
+          {/* current role indicator */}
           {isCurrent && (
             <p className='text-xs absolute font-bold top-2 left-2 text-emerald-600/50'>
               Current
@@ -81,11 +83,19 @@ const RenderForeignObjectNode = ({
                 {nodeDatum.name}
               </h5>
               <Progress
-                progress={nodeDatum.attributes.eligilibility as number}
+                progress={
+                  nodeDatum.attributes.eligilibility
+                    ? (nodeDatum.attributes.eligilibility as number)
+                    : 0
+                }
                 size={'sm'}
-                className={isCurrent ? 'opacity-30' : ''}
+                className={isCurrent ? 'opacity-20' : ''}
               />
-              <Button color={'gray'} size={'xs'} className='w-full mt-auto'>
+              <Button
+                color={'gray'}
+                size={'xs'}
+                className={`w-full mt-auto ${isCurrent ? 'opacity-30' : ''}`}
+              >
                 Learn more
               </Button>
             </div>
@@ -99,7 +109,7 @@ const RenderForeignObjectNode = ({
 };
 
 export default function JobTree() {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<any>();
   const [translate, containerRef] = useCenteredTree();
 
   const [isHydration, setIsHydration] = useState(false);

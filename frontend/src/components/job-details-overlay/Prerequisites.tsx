@@ -4,6 +4,7 @@ import ProgressBar from '@/components/ProgressBar';
 import { faBook, faSquareCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { toast, Toaster } from 'react-hot-toast';
+import Progress from '../common/Progress';
 
 interface PrerequisitesGroupProps {
   title: string;
@@ -31,9 +32,7 @@ export const PrerequisitesGroup = ({
         <p className='text-sm text-slate-500 break-words'>{level}</p>
       </div>
       <div className='flex flex-col flex-1 gap-0.5'>
-        <ProgressBar
-          progress={delta > 0 ? (progress / requirement) * 100 : 100}
-        />
+        <Progress progress={delta > 0 ? (progress / requirement) * 100 : 100} />
       </div>
       <div className='flex w-40 items-center justify-end'>
         <button onClick={() => handleRegisterInterest()}>

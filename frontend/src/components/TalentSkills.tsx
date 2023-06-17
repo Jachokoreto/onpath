@@ -30,6 +30,7 @@ export default function TalentSkills({
         <div key={index} className=' w-1/2'>
           <p className='text-[10px] w-content'>{item.name}</p>
           <Progress
+            // key={index}
             progress={percentages[index]}
             bgColor={
               percentages[index] >= 50 ? 'bg-emerald-500' : 'bg-rose-500'
