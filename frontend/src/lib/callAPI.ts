@@ -6,7 +6,7 @@ export async function callAPIs(route: string) {
   return await fetch(domain + route, {
     cache: 'no-store',
   })
-    .then((data) => data.json())
+    .then((data) => data.text())
     .catch((error) => {
       console.log('Error :', error);
     });

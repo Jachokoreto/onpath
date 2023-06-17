@@ -5,5 +5,5 @@ export default interface Employee {
   name: string;
   company: string;
   role: string;
-  employeeSkill: EmployeeSkill[];
+  employeeSkills: EmployeeSkill[];
 }
