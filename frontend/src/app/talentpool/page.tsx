@@ -3,6 +3,7 @@
 import TalentPoolList from '@/components/TalentPool';
 import TalentRoleInterest from '@/components/TalentInterestFilter';
 import TalentRoleSelection from '@/components/TalentRoleSelection';
+import SectionTitle from '@/components/common/SectionTitle';
 import { callAPIs } from '@/lib/callAPI';
 import Employee from '@/types/Employee';
 import EmployeeSkill from '@/types/EmployeeSkill';
@@ -63,7 +64,7 @@ const Retarded: EmployeeSkill[] = [
   { id: 3, name: 'Management', value: 30 },
   { id: 3, name: 'CSS', value: 30 },
   { id: 3, name: 'HTML', value: 30 },
-  { id: 3, name: 'Tailwind CSS', value: 90 },
+  { id: 3, name: 'Tailwind CSS', value: 50 },
   { id: 3, name: 'C', value: 30 },
 ];
 
@@ -118,7 +119,8 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
+    <main className='w-screen h-screen py-6 px-8'>
+      <SectionTitle title='Talent Pool' />
       <TalentRoleSelection
         selectedRole={selectedRole}
         setSelectedRole={setSelectedRole}
@@ -128,17 +130,12 @@ export default function Home() {
         InterestFilter={interestFilter}
         setInterestFilter={setInterestFilter}
       ></TalentInterestFilter>
-      {selectedRole && (
-        <>
-          <h5> {selectedRole.name}</h5>
-          <TalentPoolList
-            roleSkills={selectedRole.roleSkills}
-            employees={employees}
-            interest={interestFilter}
-            role={selectedRole}
-          ></TalentPoolList>
-        </>
-      )}
-    </div>
+      <TalentPoolList
+        roleSkills={selectedRole.roleSkills}
+        employees={employees}
+        interest={interestFilter}
+        role={selectedRole}
+      ></TalentPoolList>
+    </main>
   );
 }

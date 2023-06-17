@@ -19,10 +19,8 @@ export default function TalentProfile({
 }: TalentProfileProps) {
   return (
     <Card>
-      <div className='flex items-center space-x-4'>
-        <div className='flex flex-wrap gap-2'>
-          <Avatar img='' />
-        </div>
+      <div className='flex items-center gap-6'>
+        <Avatar size='lg' rounded />
         <div className='w-[40%]'>
           <TalentInfo
             employee={employee}
@@ -32,12 +30,10 @@ export default function TalentProfile({
             )}
           ></TalentInfo>
         </div>
-        <div className='w-[20%]'>
-          <TalentSkills
-            roleSkills={roleSkills}
-            talentSkills={employee.employeeSkills}
-          ></TalentSkills>
-        </div>
+        <TalentSkills
+          roleSkills={roleSkills}
+          talentSkills={employee.employeeSkills}
+        ></TalentSkills>
         <div>
           <TalentRoleInterest interest={interest}></TalentRoleInterest>
         </div>
