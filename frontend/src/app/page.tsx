@@ -1,6 +1,7 @@
 'use client';
 import CareerPathway from '@/components/CareerPathway';
 import SideNavbar from '@/components/SideNavbar';
+import SkillPool from '@/components/skill-pool/SkillPool';
 import { Button } from 'flowbite-react';
 import Link from 'next/link';
 
@@ -18,7 +19,8 @@ export default function Home() {
       </Link>
       <SideNavbar />
       <div className='w-full h-full p-6 flex flex-col'>
-        <CareerPathway />
+        {/* <CareerPathway /> */}
+        <SkillPool />
       </div>
     </main>
   );
