@@ -3,7 +3,7 @@
 import ProgressBar from '@/components/ProgressBar';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faSquareCheck } from '@fortawesome/free-solid-svg-icons';
-import { toast, Toaster } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 
 interface PrerequisitesGroupProps {
   title: string;
@@ -19,7 +19,6 @@ export const PrerequisitesGroup = ({
   progress,
 }: PrerequisitesGroupProps) => {
   const delta = requirement - progress;
-
   const handleRegisterInterest = () => {
     toast.success('Interest registered suceessfully');
   };
