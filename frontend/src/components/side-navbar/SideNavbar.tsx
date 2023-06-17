@@ -30,8 +30,8 @@ export const SkillGraph = () => {
             <Radar
               name='user'
               dataKey='A'
-              stroke='#8884d8'
-              fill='#8884d8'
+              stroke='#0e7490'
+              fill='#0e7490'
               fillOpacity={0.6}
             />
           </RadarChart>
