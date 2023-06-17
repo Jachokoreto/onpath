@@ -15,6 +15,7 @@ import { UpdateEmployeeRoleImpressionDto } from './dto/update-employee-role-impr
 import {
   IsEnum,
   IsNotEmpty,
+  IsNumber,
   IsNumberString,
   ValidateIf,
 } from 'class-validator';
@@ -45,6 +46,16 @@ class ImpressionGetQueryParameters {
   search_number: number;
 }
 
+class ImpressionPostBodyParameters {
+  @IsNotEmpty()
+  @IsNumber()
+  employeeID: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  roleID: number;
+}
+
 @Controller('employee-role-impression')
 export class EmployeeRoleImpressionController {
   constructor(
@@ -52,12 +63,17 @@ export class EmployeeRoleImpressionController {
   ) {}
 
   @Post()
-  create(
-    @Body() createEmployeeRoleImpressionDto: CreateEmployeeRoleImpressionDto,
+  async create(
+    @Body(
+      new ValidationPipe({
+        forbidNonWhitelisted: true,
+      }),
+    )
+    bodyParameters: ImpressionPostBodyParameters,
   ) {
-    return this.employeeRoleImpressionService.create(
-      createEmployeeRoleImpressionDto,
-    );
+		return await this.employeeRoleImpressionService.create(
+			bodyParameters.employeeID, bodyParameters.roleID
+		)
   }
 
   @Get()

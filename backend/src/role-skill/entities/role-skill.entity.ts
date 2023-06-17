@@ -14,6 +14,9 @@ export class RoleSkill {
   id: number;
 
   @Column()
+  name: string;
+
+  @Column()
   value: number;
 
   @ManyToOne(() => Role, (role) => role.roleSkills)
