@@ -678,6 +678,33 @@ COPY public.role_relation (id, "parentRoleId", "childRoleId") FROM stdin;
 --
 
 COPY public.role_skill (id, value, "roleId", name) FROM stdin;
+3	4	1	Python
+4	3	1	Postgres
+6	2	1	C++
+9	3	1	Database Design
+10	5	2	Python
+11	4	2	Postgres
+12	3	2	C++
+13	4	2	Database Design
+8	3	1	Docker
+14	3	2	Docker
+24	3	4	Docker
+23	6	4	Database Design
+22	4	4	C++
+21	6	4	Postgres
+20	7	4	Python
+16	5	3	Postgres
+17	4	3	C++
+18	5	3	Database Design
+19	3	3	Docker
+15	6	3	Python
+25	7	6	Python
+26	6	6	Postgres
+27	4	6	C++
+28	6	6	Database Design
+29	3	6	Docker
+30	6	6	Management
+31	6	6	Leadership
 \.
 
 
