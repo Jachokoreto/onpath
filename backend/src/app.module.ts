@@ -10,6 +10,7 @@ import { MetricModule } from './metric/metric.module';
 import { RoleSkillModule } from './role-skill/role-skill.module';
 import { EmployeeSkillModule } from './employee-skill/employee-skill.module';
 import { RoleRelationModule } from './role-relation/role-relation.module';
+import { EmployeeSkillImpressionModule } from './employee-skill-impression/employee-skill-impression.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { RoleRelationModule } from './role-relation/role-relation.module';
     RoleSkillModule,
     EmployeeSkillModule,
     RoleRelationModule,
+    EmployeeSkillImpressionModule,
   ],
 })
 export class AppModule {}

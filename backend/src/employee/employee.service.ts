@@ -20,6 +20,7 @@ export class EmployeeService {
     const data: Employee[] = await this.employeeRepository.find({
       relations: {
         role: true,
+        employeeSkills: true,
       },
     });
 
@@ -44,6 +45,12 @@ export class EmployeeService {
     const data: Employee = await this.employeeRepository.findOne({
       where: {
         id: id,
+      },
+      relations: {
+        role: true,
+        employeeSkills: true,
+        employeeSkillImpressions: true,
+        employeeRoleImpressions: true,
       },
     });
 

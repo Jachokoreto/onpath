@@ -5,4 +5,5 @@ export default interface EmployeeSkill {
   name: string;
   value: number;
   employee?: Employee;
+  // metric: Metric[];
 }

@@ -9,16 +9,23 @@ import { EmployeeRoleImpression } from './entities/employee-role-impression.enti
 export class EmployeeRoleImpressionService {
   constructor(
     @InjectRepository(EmployeeRoleImpression)
-    private EmployeeRoleImpressionRepository: Repository<EmployeeRoleImpression>,
+    private employeeRoleImpressionRepository: Repository<EmployeeRoleImpression>,
   ) {}
 
-  create(createEmployeeRoleImpressionDto: CreateEmployeeRoleImpressionDto) {
-    return 'This action adds a new employeeRoleImpression';
+  async create(employeeID: number, roleID): Promise<EmployeeRoleImpression> {
+    const data: EmployeeRoleImpression =
+      this.employeeRoleImpressionRepository.create({
+        employee: { id: employeeID },
+        role: { id: roleID },
+        impression: true,
+      });
+
+    return await this.employeeRoleImpressionRepository.save(data);
   }
 
   async findByEmployee(employeeID: number): Promise<EmployeeRoleImpression[]> {
     const data: EmployeeRoleImpression[] =
-      await this.EmployeeRoleImpressionRepository.find({
+      await this.employeeRoleImpressionRepository.find({
         relations: {
           employee: true,
         },
@@ -34,7 +41,7 @@ export class EmployeeRoleImpressionService {
 
   async findByRole(roleID: number): Promise<EmployeeRoleImpression[]> {
     const data: EmployeeRoleImpression[] =
-      await this.EmployeeRoleImpressionRepository.find({
+      await this.employeeRoleImpressionRepository.find({
         relations: {
           employee: true,
         },

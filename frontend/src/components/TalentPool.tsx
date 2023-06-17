@@ -2,31 +2,86 @@ import Employee from '@/types/Employee';
 import TalentProfile from './TalentProfile';
 import EmployeeSkill from '@/types/EmployeeSkill';
 import { relativeCareerProgression } from '@/lib/relativeCareerProgression';
+import { useEffect, useState } from 'react';
+import { callAPIs } from '@/lib/callAPI';
+import { Role } from '@/types/Role';
 
 interface TalentPoolProps {
-  talents: Employee[];
+  employees: Employee[];
   roleSkills: EmployeeSkill[];
+  interest: boolean;
+  role: Role;
 }
 
 export default function TalentPoolList({
-  talents,
+  employees,
   roleSkills,
+  interest,
+  role,
 }: TalentPoolProps) {
-  talents.sort(
-    (prevTalent, currTalent) =>
-      relativeCareerProgression(currTalent.employeeSkill, roleSkills) -
-      relativeCareerProgression(prevTalent.employeeSkill, roleSkills),
+  const [roleInterest, setRoleInterest] = useState([]);
+  const [interestedEmployees, setInterestedEmployees] = useState<Employee[]>(
+    [],
   );
+  employees.sort(
+    (prevTalent, currTalent) =>
+      relativeCareerProgression(currTalent.employeeSkills, roleSkills) -
+      relativeCareerProgression(prevTalent.employeeSkills, roleSkills),
+  );
+  // if (interest === true)
+  //   employees.filter((employee) => roleInterest.find(employee.id) != undefined);
+  useEffect(() => {
+    async function getRoleInterest() {
+      const roleImpression = await callAPIs(
+        `employee-role-impression?search_type=ROLE&search_number=${role.id}`,
+      );
+      if (roleImpression) {
+        const data = JSON.parse(roleImpression);
+        setRoleInterest(data);
+        setInterestedEmployees(data.map((d) => d.employee));
+      }
+    }
+    getRoleInterest();
+  }, []);
 
+  console.log(employees);
+  console.log(interestedEmployees);
+  console.log(
+    employees.filter((e) =>
+      interestedEmployees.some((ie) => {
+        return ie.id === e.id;
+      }),
+    ),
+  );
   return (
-    <div className='flex flex-col gap-4 mt-4'>
-      {talents.map((item, index) => (
-        <TalentProfile
-          key={index}
-          talent={item}
-          roleSkills={roleSkills}
-        ></TalentProfile>
-      ))}
+    <div>
+      {interest === true ? (
+        <>
+          {employees
+            .filter((e) => interestedEmployees.some((ie) => ie.id === e.id))
+            .map((item, index) => (
+              <TalentProfile
+                key={index}
+                employee={item}
+                roleSkills={roleSkills}
+                interest={true}
+              ></TalentProfile>
+            ))}
+        </>
+      ) : (
+        <>
+          {employees.map((item, index) => (
+            <TalentProfile
+              key={index}
+              employee={item}
+              roleSkills={roleSkills}
+              interest={
+                interestedEmployees.some((e) => e.id === item.id) ? true : false
+              }
+            ></TalentProfile>
+          ))}
+        </>
+      )}
       <li></li>
     </div>
   );
