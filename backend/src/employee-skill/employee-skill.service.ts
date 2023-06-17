@@ -1,31 +1,51 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateEmployeeSkillDto } from './dto/create-employee-skill.dto';
-import { UpdateEmployeeSkillDto } from './dto/update-employee-skill.dto';
 import { EmployeeSkill } from './entities/employee-skill.entity';
+import { EmployeeService } from 'src/employee/employee.service';
 
 @Injectable()
 export class EmployeeSkillService {
   constructor(
     @InjectRepository(EmployeeSkill)
     private employeeSkillRepository: Repository<EmployeeSkill>,
+
+    @Inject(EmployeeService)
+    private readonly employeeService: EmployeeService,
   ) {}
 
-  create(createEmployeeSkillDto: CreateEmployeeSkillDto) {
-    return 'This action adds a new employeeSkill';
+  async create(createEmployeeSkillDto: CreateEmployeeSkillDto) {
+    const employee = await this.employeeService.findOneByID(
+      createEmployeeSkillDto.employee_id,
+    );
+    const newEmployeeSkill = this.employeeSkillRepository.create({
+      name: createEmployeeSkillDto.name,
+      value: '0',
+      employee: employee,
+    });
+
+    this.employeeSkillRepository.save(newEmployeeSkill);
   }
 
-  findAll() {
-    return `This action returns all employeeSkill`;
+  async findAll(): Promise<EmployeeSkill[]> {
+    return await this.employeeSkillRepository.find({
+      relations: {
+        employee: true,
+        metrics: true,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} employeeSkill`;
+  async findOne(id: number): Promise<EmployeeSkill | null> {
+    return await this.employeeSkillRepository.findOne({
+      relations: { employee: true, metrics: true },
+      where: { id: id },
+    });
   }
 
-  update(id: number, updateEmployeeSkillDto: UpdateEmployeeSkillDto) {
-    return `This action updates a #${id} employeeSkill`;
+  async update(id: number, value: string) {
+    this.employeeSkillRepository.update(id, { value: value });
   }
 
   remove(id: number) {
