@@ -9,9 +9,6 @@ export function relativeSkillCalculation(
       (talentSkill) => talentSkill.name === roleSkill.name,
     );
 
-    console.log(talentSkillMatch);
-    console.log(roleSkill.value);
-
     return talentSkillMatch
       ? (talentSkillMatch.value / roleSkill.value) * 100 >= 100
         ? 100
