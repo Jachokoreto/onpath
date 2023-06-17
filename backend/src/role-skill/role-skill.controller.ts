@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { RoleSkillService } from './role-skill.service';
 import { CreateRoleSkillDto } from './dto/create-role-skill.dto';
 import { UpdateRoleSkillDto } from './dto/update-role-skill.dto';
@@ -23,7 +31,10 @@ export class RoleSkillController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRoleSkillDto: UpdateRoleSkillDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateRoleSkillDto: UpdateRoleSkillDto,
+  ) {
     return this.roleSkillService.update(+id, updateRoleSkillDto);
   }
 
