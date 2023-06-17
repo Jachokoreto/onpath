@@ -1,8 +1,8 @@
 'use client';
 import { useCenteredTree } from '@/hooks/useCenteredTree';
 import { Button, Card } from 'flowbite-react';
-import React from 'react';
-import Tree, { CustomNodeElementProps } from 'react-d3-tree';
+import React, { useEffect, useRef, useState } from 'react';
+import Tree, { CustomNodeElementProps, TreeNodeDatum } from 'react-d3-tree';
 
 // This is a simplified example of an org chart with a depth of 2.
 // Note how deeper levels are defined recursively via the `children` property.
@@ -43,6 +43,13 @@ const orgChart = {
   ],
 };
 
+// interface CustomTreeNodeDatum extends TreeNodeDatum {
+//   attributes?: {
+//     roleTitle: string;
+//     roleId: number;
+//   };
+// }
+
 const renderForeignObjectNode = ({
   nodeDatum,
   toggleNode,
@@ -57,7 +64,7 @@ const renderForeignObjectNode = ({
     >
       <Card className='w-[300px] h-[150px]  cursor-default'>
         <h5 className='text-xl font-bold tracking-tight text-gray-900 dark:text-white'>
-          Job title
+          nodeDatum
         </h5>
         <Button outline>Learn more</Button>
       </Card>
@@ -66,21 +73,33 @@ const renderForeignObjectNode = ({
 );
 
 export default function JobTree() {
+  const ref = useRef<HTMLDivElement>(null);
   const [translate, containerRef] = useCenteredTree();
+
+  const [isHydration, setIsHydration] = useState(false);
+
+  useEffect(() => {
+    setIsHydration(true);
+  }, []);
+
+  if (isHydration === false) return;
   return (
-    // `<Tree />` will fill width/height of its container; in this case `#treeWrapper`.
-    <div className='w-full h-full' ref={containerRef}>
-      {/* <p>Hello there
-      </p> */}
+    // <div className='w-full h-full border border-gray-700 rounded p-2'>
+    <div className='w-full h-full ' ref={containerRef}>
+      <></>
       <Tree
         data={orgChart}
         translate={translate}
+        dimensions={
+          ref.current?.getBoundingClientRect() || { width: 0, height: 0 }
+        }
         renderCustomNodeElement={(rd3tProps) =>
           renderForeignObjectNode(rd3tProps)
         }
         nodeSize={{ x: 400, y: 300 }}
-        pathFunc={'straight'}
+        // pathFunc={'straight'}
       />
     </div>
+    // </div>
   );
 }
