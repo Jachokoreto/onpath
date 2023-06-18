@@ -1,11 +1,11 @@
 import Employee from '@/types/Employee';
 import TalentProfile from './TalentProfile';
-import EmployeeSkill from '@/types/EmployeeSkill';
-import { relativeCareerProgression } from '@/lib/relativeCareerProgression';
+import RoleSkill from '@/types/RoleSkill';
+import { relativeCareerProgression } from '@/lib/RelativeCareerProgression';
 
 interface TalentPoolProps {
   talents: Employee[];
-  roleSkills: EmployeeSkill[];
+  roleSkills: RoleSkill[];
   interest: boolean;
 }
 
@@ -23,7 +23,11 @@ export default function TalentPoolList({
   return (
     <div>
       {talents.map((item, index) => (
-        <TalentProfile talent={item} roleSkills={roleSkills}></TalentProfile>
+        <TalentProfile
+          key={index}
+          talent={item}
+          roleSkills={roleSkills}
+        ></TalentProfile>
       ))}
       <li></li>
     </div>

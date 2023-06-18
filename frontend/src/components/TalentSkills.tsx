@@ -1,10 +1,10 @@
-import { relativeSkillCalculation } from '@/lib/relativeSkillCalculation';
-import EmployeeSkill from '@/types/EmployeeSkill';
+import { relativeSkillCalculation } from '@/lib/RelativeSkillCalculation';
+import RoleSkill from '@/types/RoleSkill';
 import { Progress } from 'flowbite-react';
 
 interface TalentSkillsProps {
-  roleSkills: EmployeeSkill[];
-  talentSkills: EmployeeSkill[];
+  roleSkills: RoleSkill[];
+  talentSkills: RoleSkill[];
 }
 
 export default function TalentSkills({

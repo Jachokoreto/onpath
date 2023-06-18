@@ -3,7 +3,7 @@ import { Avatar, Card } from 'flowbite-react';
 import TalentInfo from './TalentInfo';
 import TalentSkills from './TalentSkills';
 import EmployeeSkill from '@/types/EmployeeSkill';
-import { relativeCareerProgression } from '@/lib/relativeCareerProgression';
+import { relativeCareerProgression } from '@/lib/RelativeCareerProgression';
 
 interface TalentProfileProps {
   talent: Employee;
