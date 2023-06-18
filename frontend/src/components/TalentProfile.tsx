@@ -19,9 +19,9 @@ export default function TalentProfile({
 }: TalentProfileProps) {
   return (
     <Card>
-      <div className='flex items-center gap-6'>
+      <div className='flex items-center gap-6 h-[120px]'>
         <Avatar size='lg' rounded />
-        <div className='w-[40%]'>
+        <div className='flex-1'>
           <TalentInfo
             employee={employee}
             progress={relativeCareerProgression(

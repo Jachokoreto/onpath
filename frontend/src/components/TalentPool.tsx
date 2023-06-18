@@ -55,7 +55,7 @@ export default function TalentPoolList({
     ),
   );
   return (
-    <div>
+    <div className='flex flex-col gap-4 mt-4'>
       {interest === true ? (
         <>
           {employees
@@ -83,7 +83,6 @@ export default function TalentPoolList({
           ))}
         </>
       )}
-      <li></li>
     </div>
   );
 }

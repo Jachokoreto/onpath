@@ -11,7 +11,7 @@ export default function PovButton() {
   const isEmployer = ['/talentpool'].find((x) => x === pathname);
 
   return (
-    <Link href={isEmployer ? '/' : '/talentpool'}>
+    <Link href={isEmployer ? '/1' : '/talentpool'}>
       <Button className='absolute top-1 right-1' color={'warning'} size={'xs'}>
         {isEmployer ? 'Employee' : 'Employer'}
       </Button>

@@ -13,7 +13,7 @@ export default function TalentRoleInterest({
       {interest ? (
         <FontAwesomeIcon icon={faStar} size='lg' style={{ color: '#FFD800' }} />
       ) : (
-        <></>
+        <span className='w-6' />
       )}
     </>
   );

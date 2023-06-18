@@ -121,15 +121,17 @@ export default function Home() {
   return (
     <main className='w-screen h-screen py-6 px-8'>
       <SectionTitle title='Talent Pool' />
-      <TalentRoleSelection
-        selectedRole={selectedRole}
-        setSelectedRole={setSelectedRole}
-        roles={roles}
-      ></TalentRoleSelection>
-      <TalentInterestFilter
-        InterestFilter={interestFilter}
-        setInterestFilter={setInterestFilter}
-      ></TalentInterestFilter>
+      <div className='flex items-center space-x-4 mt-4 py-2 px-4 bg-slate-100 rounded text-sm'>
+        <TalentRoleSelection
+          selectedRole={selectedRole}
+          setSelectedRole={setSelectedRole}
+          roles={roles}
+        />
+        <TalentInterestFilter
+          InterestFilter={interestFilter}
+          setInterestFilter={setInterestFilter}
+        />
+      </div>
 
       <TalentPoolList
         roleSkills={selectedRole?.roleSkills || []}

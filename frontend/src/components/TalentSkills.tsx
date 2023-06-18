@@ -14,7 +14,7 @@ export default function TalentSkills({
   const percentages = relativeSkillCalculation(talentSkills, roleSkills);
 
   return (
-    <div className='flex flex-col flex-wrap gap-2 flex-1'>
+    <div className='h-full flex flex-col flex-wrap gap-2 w-[400px]'>
       {roleSkills.map((item, index) => (
         // <Progress
         //   key={index}
