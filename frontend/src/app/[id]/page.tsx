@@ -21,8 +21,8 @@ export default function Page({ params }: { params: { id: string } }) {
 
   return (
     <main className='w-screen h-screen flex flex-row'>
-			<Toaster position='top-right' reverseOrder={false} />;
-			{employee && <SideNavbar employee={employee} />}
+      <Toaster position='top-right' reverseOrder={false} />
+      {employee && <SideNavbar employee={employee} />}
       <div className='w-full h-full p-6 flex flex-col'>
         <CareerPathway />
       </div>

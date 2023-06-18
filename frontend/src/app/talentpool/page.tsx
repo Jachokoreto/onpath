@@ -7,7 +7,7 @@ import SectionTitle from '@/components/common/SectionTitle';
 import { callAPIs } from '@/lib/callAPI';
 import Employee from '@/types/Employee';
 import EmployeeSkill from '@/types/EmployeeSkill';
-import { Role } from '@/types/Role';
+import Role from '@/types/Role';
 import { useEffect, useState } from 'react';
 import TalentInterestFilter from '@/components/TalentInterestFilter';
 
@@ -130,11 +130,12 @@ export default function Home() {
         InterestFilter={interestFilter}
         setInterestFilter={setInterestFilter}
       ></TalentInterestFilter>
+
       <TalentPoolList
-        roleSkills={selectedRole.roleSkills}
+        roleSkills={selectedRole?.roleSkills || []}
         employees={employees}
         interest={interestFilter}
-        role={selectedRole}
+        role={selectedRole || undefined}
       ></TalentPoolList>
     </main>
   );

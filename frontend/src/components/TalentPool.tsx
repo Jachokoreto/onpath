@@ -4,13 +4,13 @@ import EmployeeSkill from '@/types/EmployeeSkill';
 import { relativeCareerProgression } from '@/lib/relativeCareerProgression';
 import { useEffect, useState } from 'react';
 import { callAPIs } from '@/lib/callAPI';
-import { Role } from '@/types/Role';
+import Role from '@/types/Role';
 
 interface TalentPoolProps {
   employees: Employee[];
   roleSkills: EmployeeSkill[];
   interest: boolean;
-  role: Role;
+  role: Role | undefined;
 }
 
 export default function TalentPoolList({
@@ -32,13 +32,14 @@ export default function TalentPoolList({
   //   employees.filter((employee) => roleInterest.find(employee.id) != undefined);
   useEffect(() => {
     async function getRoleInterest() {
+      if (!role) return;
       const roleImpression = await callAPIs(
         `employee-role-impression?search_type=ROLE&search_number=${role.id}`,
       );
       if (roleImpression) {
         const data = JSON.parse(roleImpression);
         setRoleInterest(data);
-        setInterestedEmployees(data.map((d) => d.employee));
+        setInterestedEmployees(data.map((d: any) => d.employee));
       }
     }
     getRoleInterest();
