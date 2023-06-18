@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Tree, { CustomNodeElementProps } from 'react-d3-tree';
 import JobDetailsModal from './job-details-overlay/JobDetailsModal';
 import getRoleTree from '@/lib/getRoleTree';
-import { relativeCareerProgression } from '@/lib/RelativeCareerProgression';
+import { relativeCareerProgression } from '@/lib/relativeCareerProgression';
 import Employee from '@/types/Employee';
 import Role from '@/types/Role';
 
@@ -47,14 +47,17 @@ const RenderForeignObjectNode = ({
               <h5 className='text-xl font-bold tracking-tight text-gray-900 dark:text-white mb-2'>
                 {nodeDatum?.name}
               </h5>
-              <Progress
-                progress={relativeCareerProgression(
-                  employee.employeeSkills,
-                  roleSkills,
-                )}
-                size={'sm'}
-                className={isCurrent ? 'opacity-20' : ''}
-              />
+              {roleSkills && (
+                <Progress
+                  progress={relativeCareerProgression(
+                    employee.employeeSkills,
+                    roleSkills,
+                  )}
+                  size={'sm'}
+                  className={isCurrent ? 'opacity-20' : ''}
+                />
+              )}
+
               {roleSkills && (
                 <JobDetailsModal
                   employeeSkills={employee.employeeSkills}

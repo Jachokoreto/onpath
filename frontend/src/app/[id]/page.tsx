@@ -1,12 +1,14 @@
 'use client';
 import CareerPathway from '@/components/CareerPathway';
 import SideNavbar from '@/components/side-navbar/SideNavbar';
+import SkillPool from '@/components/skill-pool/SkillPool';
 import Employee from '@/types/Employee';
 import { useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 
 export default function Page({ params }: { params: { id: string } }) {
   const [employee, setEmployee] = useState<Employee>();
+  const [selected, setSelected] = useState(2);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,14 +19,23 @@ export default function Page({ params }: { params: { id: string } }) {
     };
 
     fetchData().catch(console.error);
-  }, [params]);
+  }, []);
 
   return (
     <main className='w-screen h-screen flex flex-row'>
       <Toaster position='top-right' reverseOrder={false} />
-      {employee && <SideNavbar employee={employee} />}
+      {employee && (
+        <SideNavbar
+          employee={employee}
+          selected={selected}
+          setSelected={(selectedID: number) => setSelected(selectedID)}
+        />
+      )}
       <div className='w-full h-full p-6 flex flex-col'>
-        {employee && <CareerPathway employee={employee} />}
+        {employee && selected === 1 && (
+          <SkillPool employee={employee}></SkillPool>
+        )}
+        {employee && selected === 2 && <CareerPathway employee={employee} />}
       </div>
     </main>
   );

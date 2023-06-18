@@ -28,6 +28,7 @@ enum MetricSearchType {
   MULTI = 'MULTI',
   ONE = 'ONE',
   TYPE = 'TYPE',
+  EMPLOYEE = 'EMPLOYEE',
 }
 
 class MetricGetQueryParameters {
@@ -45,10 +46,15 @@ class MetricGetQueryParameters {
   search_string: string;
 
   @ValidateIf(
-    (searchParams) => searchParams.search_type === MetricSearchType.ONE,
+    (searchParams) =>
+      searchParams.search_type === MetricSearchType.ONE ||
+      searchParams.search_type === MetricSearchType.EMPLOYEE,
   )
   @Transform((params) =>
-    params.obj.search_type === MetricSearchType.ONE ? params.value : undefined,
+    params.obj.search_type === MetricSearchType.ONE ||
+    params.obj.search_type === MetricSearchType.EMPLOYEE
+      ? params.value
+      : undefined,
   )
   @IsNumberString()
   search_number: number;
@@ -93,6 +99,10 @@ export class MetricController {
       case MetricSearchType.TYPE:
         return await this.metricService.findOneByType(
           queryOptions.search_string,
+        );
+      case MetricSearchType.EMPLOYEE:
+        return await this.metricService.findByEmployee(
+          queryOptions.search_number,
         );
     }
   }

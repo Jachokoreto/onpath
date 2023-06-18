@@ -32,7 +32,11 @@ export const PrerequisitesGroup = ({
         <p className='text-sm text-slate-500 break-words'>{level}</p>
       </div>
       <div className='flex flex-col flex-1 gap-0.5'>
-        <Progress progress={delta > 0 ? (progress / requirement) * 100 : 100} />
+        <Progress
+          progress={Math.floor(
+            delta > 0 ? (progress / requirement) * 100 : 100,
+          )}
+        />
       </div>
       <div className='flex w-40 items-center justify-end'>
         <button onClick={() => handleRegisterInterest()}>
