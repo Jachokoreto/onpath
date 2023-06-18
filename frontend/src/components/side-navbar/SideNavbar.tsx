@@ -100,15 +100,20 @@ export const ProfileCard = () => {
   );
 };
 
-export const Navigation = () => {
+interface NavigationProps {
+  selected: number;
+  setSelected: (selected: number) => void;
+}
+
+export const Navigation = ({ selected, setSelected }: NavigationProps) => {
   return (
     <div className='flex flex-col gap-1'>
       <p className='text-slate-400 text-sm'>Views</p>
       <div className='flex gap-2'>
-        <Button outline className='w-full'>
+        <Button outline className='w-full' onClick={() => setSelected(1)}>
           Dashboard
         </Button>
-        <Button outline className='w-full'>
+        <Button outline className='w-full' onClick={() => setSelected(2)}>
           Career Pathway
         </Button>
       </div>
@@ -116,11 +121,16 @@ export const Navigation = () => {
   );
 };
 
-export default function SideNavbar() {
+interface SideNavbarProps {
+  selected: number;
+  setSelected: (selected: number) => void;
+}
+
+export default function SideNavbar({ selected, setSelected }: SideNavbarProps) {
   return (
     <div className='w-[30vw] h-full border-r border-gray-300 py-5 px-6 flex flex-col gap-4'>
       <h2 className='text-2xl font-bold'>OnPath</h2>
-      <Navigation />
+      <Navigation selected={selected} setSelected={setSelected} />
       <ProfileCard />
       <SkillGraph />
     </div>

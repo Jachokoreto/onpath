@@ -1,3 +1,5 @@
+import EmployeeSkill from './EmployeeSkill';
+
 export default interface Metric {
   id: number;
   name: string;
@@ -5,4 +7,5 @@ export default interface Metric {
   type: string;
   value: number;
   weightage: number;
+  employeeSkill: EmployeeSkill;
 }
