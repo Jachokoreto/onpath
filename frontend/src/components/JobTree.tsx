@@ -1,93 +1,66 @@
 'use client';
 import { useCenteredTree } from '@/hooks/useCenteredTree';
-import { Button, Card, Progress } from 'flowbite-react';
+import { Card, Progress } from 'flowbite-react';
 import React, { useEffect, useRef, useState } from 'react';
-import Tree, { CustomNodeElementProps, TreeNodeDatum } from 'react-d3-tree';
+import Tree, { CustomNodeElementProps } from 'react-d3-tree';
+import JobDetailsModal from './job-details-overlay/JobDetailsModal';
+import getRoleTree from '@/lib/getRoleTree';
+import { relativeCareerProgression } from '@/lib/relativeCareerProgression';
+import Employee from '@/types/Employee';
+import Role from '@/types/Role';
 
-// This is a simplified example of an org chart with a depth of 2.
-// Note how deeper levels are defined recursively via the `children` property.
-const orgChart = {
-  name: 'Entry Developer',
-  children: [
-    {
-      name: 'Junior Frontend Developer',
-      attributes: {
-        eligilibility: 100,
-        current: 'true',
-      },
-      children: [
-        {
-          name: 'Senior Frontend Developer',
-          attributes: {
-            eligilibility: 44,
-          },
-          children: [
-            {
-              name: 'CTO',
-            },
-          ],
-        },
-        {
-          name: 'Fullstack Developer',
-          attributes: {},
-          children: [
-            {
-              name: 'Tech Team Lead',
-            },
-          ],
-        },
-      ],
-    },
-  ],
-};
-
-// interface CustomTreeNodeDatum extends TreeNodeDatum {
-//   attributes?: {
-//     roleTitle: string;
-//     roleId: number;
-//   };
-// }
+interface MyCustomNode extends CustomNodeElementProps {
+  employee: Employee;
+  roles: Role[];
+}
 
 const RenderForeignObjectNode = ({
   nodeDatum,
-  toggleNode,
-}: CustomNodeElementProps) => {
-  // const [isCurrent, setIsCurrent] = useState(false);
-  const isCurrent =
-    nodeDatum && nodeDatum.attributes && nodeDatum.attributes.current;
+  employee,
+  roles,
+}: MyCustomNode) => {
+  const isCurrent = employee.role.id === nodeDatum?.attributes?.id;
+  const roleSkills = roles.find(
+    (r) => r.id === (nodeDatum.attributes?.id as number),
+  )?.roleSkills;
 
   return (
     <g>
-      {/* <circle r={15}></circle> */}
-      {/* `foreignObject` requires width & height to be explicitly set. */}
       <foreignObject
-        width={300}
-        height={150}
+        width={320}
+        height={170}
         className='-translate-y-[75px] -translate-x-[150px]'
       >
         <Card
-          className={`w-[300px] h-[150px] cursor-default ${
-            isCurrent && 'border-2 border-emerald-600 '
+          className={`relative top-[10px] left-[10px] w-[300px] h-[150px] cursor-default ${
+            isCurrent ? '!border-2 !border-emerald-400' : ''
           }`}
         >
+          {/* current role indicator */}
           {isCurrent && (
             <p className='text-xs absolute font-bold top-2 left-2 text-emerald-600/50'>
               Current
             </p>
           )}
-          {nodeDatum && nodeDatum.attributes ? (
+          {nodeDatum ? (
             <div className='h-full flex flex-col'>
               <h5 className='text-xl font-bold tracking-tight text-gray-900 dark:text-white mb-2'>
-                {nodeDatum.name}
+                {nodeDatum?.name}
               </h5>
               <Progress
-                progress={nodeDatum.attributes.eligilibility as number}
+                progress={relativeCareerProgression(
+                  employee.employeeSkills,
+                  roleSkills,
+                )}
                 size={'sm'}
-                className={isCurrent ? 'opacity-30' : ''}
+                className={isCurrent ? 'opacity-20' : ''}
               />
-              <Button color={'gray'} size={'xs'} className='w-full mt-auto'>
-                Learn more
-              </Button>
+              {roleSkills && (
+                <JobDetailsModal
+                  employeeSkills={employee.employeeSkills}
+                  roleSkills={roleSkills}
+                />
+              )}
             </div>
           ) : (
             <p>Loading...</p>
@@ -98,37 +71,59 @@ const RenderForeignObjectNode = ({
   );
 };
 
-export default function JobTree() {
+interface JobTreeProps {
+  employee: Employee;
+}
+
+export default function JobTree({ employee }: JobTreeProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [translate, containerRef] = useCenteredTree();
 
   const [isHydration, setIsHydration] = useState(false);
 
+  const [roles, setRoles] = useState<Role[]>([]);
+  const [roleTree, setRoleTree] = useState();
+
   useEffect(() => {
     setIsHydration(true);
   }, []);
 
-  if (isHydration === false) return;
+  useEffect(() => {
+    async function getRoles() {
+      const data = await fetch(
+        'http://localhost:4242/api/role?search_type=PATHWAY&search_number=1',
+      ).then((res) => res.text());
+
+      const parsed = JSON.parse(data);
+
+      setRoles(parsed);
+      const jobTree = getRoleTree(parsed);
+      setRoleTree(jobTree);
+    }
+    getRoles();
+  }, []);
+
+  if (isHydration === false) return <></>;
+
+  console.log(roleTree);
   return (
-    // <div className='w-full h-full border border-gray-700 rounded p-2'>
     <div
       className='w-full h-full border-2 rounded-lg border-slate-500'
       ref={containerRef}
     >
-      <></>
-      <Tree
-        data={orgChart}
-        translate={translate}
-        dimensions={
-          ref.current?.getBoundingClientRect() || { width: 0, height: 0 }
-        }
-        renderCustomNodeElement={(rd3tProps) =>
-          RenderForeignObjectNode(rd3tProps)
-        }
-        nodeSize={{ x: 400, y: 300 }}
-        // pathFunc={'straight'}
-      />
+      {roleTree && (
+        <Tree
+          data={roleTree}
+          translate={translate}
+          dimensions={
+            ref.current?.getBoundingClientRect() || { width: 0, height: 0 }
+          }
+          renderCustomNodeElement={(rd3tProps) =>
+            RenderForeignObjectNode({ ...rd3tProps, employee, roles })
+          }
+          nodeSize={{ x: 400, y: 300 }}
+        />
+      )}
     </div>
-    // </div>
   );
 }

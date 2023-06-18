@@ -71,9 +71,10 @@ export class EmployeeRoleImpressionController {
     )
     bodyParameters: ImpressionPostBodyParameters,
   ) {
-		return await this.employeeRoleImpressionService.create(
-			bodyParameters.employeeID, bodyParameters.roleID
-		)
+    return await this.employeeRoleImpressionService.create(
+      bodyParameters.employeeID,
+      bodyParameters.roleID,
+    );
   }
 
   @Get()

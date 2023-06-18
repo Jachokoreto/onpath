@@ -1,9 +1,10 @@
 import EmployeeSkill from '@/types/EmployeeSkill';
 import { relativeSkillCalculation } from './relativeSkillCalculation';
+import RoleSkill from '@/types/RoleSkill';
 
 export function relativeCareerProgression(
   talentSkills: EmployeeSkill[],
-  roleSkills: EmployeeSkill[],
+  roleSkills: RoleSkill[] | undefined,
 ) {
   const matchedSkill = relativeSkillCalculation(talentSkills, roleSkills);
   return Math.floor(

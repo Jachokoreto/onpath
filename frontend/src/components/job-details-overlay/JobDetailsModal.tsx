@@ -3,15 +3,27 @@
 import { Button, Modal } from 'flowbite-react';
 import React, { useState } from 'react';
 import Prerequisites from './Prerequisites';
+import RoleSkill from '@/types/RoleSkill';
+import EmployeeSkill from '@/types/EmployeeSkill';
 
-export default function JobDetailsModal() {
+interface JobDetailsModalProps {
+  employeeSkills: EmployeeSkill[];
+  roleSkills: RoleSkill[];
+}
+
+export default function JobDetailsModal({
+  employeeSkills,
+  roleSkills,
+}: JobDetailsModalProps) {
   const [openModal, setOpenModal] = useState<string | undefined>();
   const props = { openModal, setOpenModal };
 
   return (
     <>
       <Button
-        className='text-md bg-transparent text-zinc-400 border-'
+        color={'gray'}
+        size={'xs'}
+        className='w-full mt-auto'
         onClick={() => props.setOpenModal('dismissible')}
       >
         Learn more {'>'}
@@ -38,7 +50,12 @@ export default function JobDetailsModal() {
             </div>
             <div className='flex flex-col w-full gap-2'>
               <p className='text-lg text-zinc-400 font-medium'>Prerequisites</p>
-              {props.openModal && <Prerequisites />}
+              {props.openModal && (
+                <Prerequisites
+                  employeeSkills={employeeSkills}
+                  roleSkills={roleSkills}
+                />
+              )}
             </div>
           </div>
         </div>

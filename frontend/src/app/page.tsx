@@ -19,7 +19,7 @@ export default function Home() {
       </Link>
       <SideNavbar />
       <div className='w-full h-full p-6 flex flex-col'>
-        <CareerPathway />
+        {/* <CareerPathway /> */}
       </div>
     </main>
   );

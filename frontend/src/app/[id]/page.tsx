@@ -33,7 +33,7 @@ export default function Page({ params }: { params: { id: string } }) {
         {employee && selected === 1 && (
           <SkillPool employee={employee}></SkillPool>
         )}
-        {/* {employee && selected === 2 && <CareerPathway employee={employee} />} */}
+        {employee && selected === 2 && <CareerPathway employee={employee} />}
       </div>
     </main>
   );

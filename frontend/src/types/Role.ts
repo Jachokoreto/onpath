@@ -1,8 +1,16 @@
-import EmployeeSkill from './EmployeeSkill';
+import RoleSkill from './RoleSkill';
 
-export interface Role {
+export default interface Role {
   id: number;
   name: string;
   description: string;
-  roleSkills: EmployeeSkill[];
+  parentRoles: {
+    id: number;
+    parentRole: Role;
+  }[];
+  childRoles: {
+    id: number;
+    childRole: Role;
+  }[];
+  roleSkills: RoleSkill[];
 }

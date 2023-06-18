@@ -4,36 +4,38 @@ import TalentInfo from './TalentInfo';
 import TalentSkills from './TalentSkills';
 import EmployeeSkill from '@/types/EmployeeSkill';
 import { relativeCareerProgression } from '@/lib/relativeCareerProgression';
+import TalentRoleInterest from './TalentRoleInterest';
 
 interface TalentProfileProps {
-  talent: Employee;
+  employee: Employee;
   roleSkills: EmployeeSkill[];
+  interest: boolean;
 }
 
 export default function TalentProfile({
-  talent,
+  employee,
   roleSkills,
+  interest,
 }: TalentProfileProps) {
   return (
     <Card>
-      <div className='flex items-center space-x-4'>
-        <div className='flex flex-wrap gap-2'>
-          <Avatar img='' />
-        </div>
-        <div className='w-[40%]'>
+      <div className='flex items-center gap-6 h-[120px]'>
+        <Avatar size='lg' rounded />
+        <div className='w-[400px]'>
           <TalentInfo
-            talent={talent}
+            employee={employee}
             progress={relativeCareerProgression(
-              talent.employeeSkills,
+              employee.employeeSkills,
               roleSkills,
             )}
           ></TalentInfo>
         </div>
-        <div className='w-[20%]'>
-          <TalentSkills
-            roleSkills={roleSkills}
-            talentSkills={talent.employeeSkills}
-          ></TalentSkills>
+        <TalentSkills
+          roleSkills={roleSkills}
+          talentSkills={employee.employeeSkills}
+        ></TalentSkills>
+        <div>
+          <TalentRoleInterest interest={interest}></TalentRoleInterest>
         </div>
       </div>
     </Card>
