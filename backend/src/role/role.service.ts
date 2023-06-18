@@ -80,6 +80,7 @@ export class RoleService {
         'parentRoles.parentRole',
         'childRoles.childRole',
         'roleSkills',
+        'employeeRoleImpressions',
       ],
       where: {
         pathway: {

@@ -1,27 +1,20 @@
-import { Button, Checkbox, Label } from 'flowbite-react';
-import { Dispatch, SetStateAction } from 'react';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 interface TalentRoleInterestProps {
   interest: boolean;
-  setInterest: Dispatch<SetStateAction<boolean>>;
 }
+
 export default function TalentRoleInterest({
   interest,
-  setInterest,
 }: TalentRoleInterestProps) {
-  const handleInterestChange = () => {
-    setInterest(!interest);
-  };
   return (
-    <div className='flex items-center space-x-2'>
-      <Checkbox
-        id='accept'
-        checked={interest}
-        onChange={handleInterestChange}
-      />
-      <Label htmlFor='accept' onClick={() => setInterest(!interest)}>
-        Interested in this role
-      </Label>
-    </div>
+    <>
+      {interest ? (
+        <FontAwesomeIcon icon={faStar} size='lg' style={{ color: '#FFD800' }} />
+      ) : (
+        <span className='w-6' />
+      )}
+    </>
   );
 }

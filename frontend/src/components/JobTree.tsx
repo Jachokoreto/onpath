@@ -27,15 +27,16 @@ const RenderForeignObjectNode = ({
   return (
     <g>
       <foreignObject
-        width={300}
-        height={150}
+        width={320}
+        height={170}
         className='-translate-y-[75px] -translate-x-[150px]'
       >
         <Card
-          className={`w-[300px] h-[150px] cursor-default ${
-            isCurrent && 'border-2 border-emerald-600 '
+          className={`relative top-[10px] left-[10px] w-[300px] h-[150px] cursor-default ${
+            isCurrent ? '!border-2 !border-emerald-400' : ''
           }`}
         >
+          {/* current role indicator */}
           {isCurrent && (
             <p className='text-xs absolute font-bold top-2 left-2 text-emerald-600/50'>
               Current
@@ -52,7 +53,7 @@ const RenderForeignObjectNode = ({
                   roleSkills,
                 )}
                 size={'sm'}
-                className={isCurrent ? 'opacity-30' : ''}
+                className={isCurrent ? 'opacity-20' : ''}
               />
               {roleSkills && (
                 <JobDetailsModal

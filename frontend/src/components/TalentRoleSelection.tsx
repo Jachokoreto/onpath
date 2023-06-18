@@ -1,4 +1,4 @@
-import { Role } from '@/types/Role';
+import Role from '@/types/Role';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
 interface TalentRoleSelectionProps {
@@ -29,15 +29,13 @@ export default function TalentRoleSelection({
   }, [initialRoles]);
 
   return (
-    <div className='flex items-center space-x-4'>
-      <label htmlFor='role-select' className='text-lg font-medium'>
-        Select Role:
-      </label>
+    <div className='flex gap-2 items-center'>
+      <label htmlFor='role-select'>Role</label>
       <select
         id='role-select'
         value={selectedRole ? selectedRole.name : ''}
         onChange={handleRoleChange}
-        className='p-2 border border-gray-400 rounded-md'
+        className='p-2 border border-gray-400 rounded w-[300px] text-sm'
       >
         <option value=''>Select a role</option>
         {roles.map((role, index) => (

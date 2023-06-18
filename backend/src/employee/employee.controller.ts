@@ -26,6 +26,7 @@ enum EmployeeSearchType {
   ONE = 'ONE',
   NAME = 'NAME',
   ROLE = 'ROLE',
+  ROLE_IMPRESSION = 'ROLE_IMPRESSION',
 }
 
 class EmployeeGetQueryParameters {
@@ -47,10 +48,12 @@ class EmployeeGetQueryParameters {
   @ValidateIf(
     (searchType) =>
       searchType.search_type === EmployeeSearchType.ONE ||
+      searchType.search_type === EmployeeSearchType.ROLE_IMPRESSION ||
       searchType.search_type === EmployeeSearchType.ROLE,
   )
   @Transform((params) =>
     params.obj.search_type === EmployeeSearchType.ONE ||
+    params.obj.search_type === EmployeeSearchType.ROLE_IMPRESSION ||
     params.obj.search_type === EmployeeSearchType.ROLE
       ? params.value
       : undefined,
@@ -86,6 +89,11 @@ export class EmployeeController {
         return this.employeeService.findOneByID(queryOptions.search_number);
       case EmployeeSearchType.ROLE:
         return this.employeeService.findAllWithRole(queryOptions.search_number);
+      case EmployeeSearchType.ROLE_IMPRESSION:
+        return 'test';
+      // return this.employeeService.findAllEmployeesW(
+      //   queryOptions.search_number,
+      // );
     }
   }
 
